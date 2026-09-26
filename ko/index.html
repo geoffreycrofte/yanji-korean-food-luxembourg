@@ -299,17 +299,23 @@
     @media (max-width: 860px) {
       .nav-toggle { display: inline-flex; }
       .header-call { display: none; }
+      /* Panneau ancré sous le header : le conteneur découpe le contenu au ras
+         du header, la liste arrive en fondu depuis (hauteur du header − 30px) */
       .nav {
-        position: fixed; inset: calc(var(--header-h) + 22px) 0 auto 0;
+        position: absolute; top: 100%; left: 0; right: 0;
+        overflow: hidden; pointer-events: none;
+        visibility: hidden; transition: visibility 0s linear .3s;
+      }
+      .nav.is-open { visibility: visible; pointer-events: auto; transition-delay: 0s; }
+      .nav ul {
         flex-direction: column; align-items: stretch; gap: 0;
         background: var(--cream); padding: .5rem 16px 1.2rem;
         border-bottom: 3px solid var(--ink);
-        transform: translateY(-120%); visibility: hidden;
-        transition: transform .35s ease, visibility .35s;
-        z-index: -1;
+        box-shadow: 0 12px 24px -16px rgba(43, 35, 32, .45);
+        opacity: 0; transform: translateY(calc(-1 * (var(--header-h) - 30px)));
+        transition: opacity .25s ease, transform .3s cubic-bezier(.2, .8, .2, 1);
       }
-      .nav.is-open { transform: none; visibility: visible; }
-      .nav ul { flex-direction: column; align-items: stretch; }
+      .nav.is-open ul { opacity: 1; transform: none; }
       .nav a { display: block; font-size: 1.2rem; padding: .8rem 1rem; }
     }
 
