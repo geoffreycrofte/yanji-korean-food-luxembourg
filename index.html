@@ -396,13 +396,30 @@
     }
     .panel__label small { display: block; font-family: var(--font-ko); font-size: .6em; letter-spacing: .1em; margin-top: .25em; }
 
-    .flower-spin, .heart-beat, .hand-bob { transform-box: fill-box; transform-origin: 50% 50%; }
+    .flower-spin { transform-box: fill-box; transform-origin: 50% 50%; }
     .flower-spin { animation: spin 30s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .heart-beat { animation: beat 1.6s ease-in-out infinite; }
-    @keyframes beat { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.25); } 30% { transform: scale(1); } 45% { transform: scale(1.15); } }
-    .hand-bob { animation: bob 3s ease-in-out infinite; transform-origin: 50% 100%; }
-    @keyframes bob { 50% { transform: translateY(-4px) rotate(-3deg); } }
+    /* Cœur coréen : la main « claque » des doigts, un cœur jaillit du croisement */
+    .fheart__hand, .fheart__pop { transform-box: fill-box; transform-origin: 50% 100%; }
+    .fheart__hand { animation: fheart-snap 2.8s ease-in-out infinite; }
+    .fheart__pop { animation: fheart-pop 2.8s ease-out infinite; }
+    @keyframes fheart-snap {
+      0%, 12%, 42%, 100% { transform: none; }
+      20% { transform: rotate(-5deg) scale(.97); }
+      30% { transform: rotate(2deg) scale(1.02); }
+    }
+    @keyframes fheart-pop {
+      0%, 18% { transform: translateY(30px) scale(0); opacity: 0; }
+      32% { transform: translateY(0) scale(1.2); opacity: 1; }
+      42% { transform: scale(1); }
+      75% { transform: translateY(-6px); opacity: 1; }
+      100% { transform: translateY(-18px) scale(.9); opacity: 0; }
+    }
+    /* Animations coupées : cœur et vapeur affichés, immobiles */
+    html.motion-off .fheart__pop, html.motion-off .steam path { animation: none !important; }
+    @media (prefers-reduced-motion: reduce) {
+      html:not(.js) .fheart__pop, html:not(.js) .steam path { animation: none !important; }
+    }
     .steam path { stroke-dasharray: 60; animation: steam 2.4s ease-in-out infinite; }
     .steam path:nth-child(2) { animation-delay: .4s; }
     .steam path:nth-child(3) { animation-delay: .8s; }
@@ -942,27 +959,19 @@
           <span class="panel__label">Saveurs de Corée<small lang="ko">한국의 맛</small></span>
         </div>
         <div class="panel" id="heart-panel">
-          <svg class="panel__icon" viewBox="0 0 120 140" aria-hidden="true" focusable="false">
-            <g class="heart-beat"><path d="M62 24c-5-10-20-8-20 3 0 9 11 15 20 22 9-7 20-13 20-22 0-11-15-13-20-3z" fill="#d13a4a" stroke="#fff" stroke-width="3.5" stroke-linejoin="round"/></g>
-            <g class="hand-bob" stroke-linecap="round" stroke-linejoin="round">
-              <!-- index -->
-              <path d="M82 84 L54 50" stroke="#2b2320" stroke-width="21"/>
-              <path d="M82 84 L54 50" stroke="#fff" stroke-width="14.6"/>
-              <path d="M58 60 q3 -2 6 0" stroke="#2b2320" stroke-width="2.4" fill="none"/>
-              <g fill="#fff" stroke="#2b2320" stroke-width="3.2">
-                <!-- poing -->
-                <path d="M42 128 V98 Q42 84 56 81 L84 76 Q100 74 100 88 V108 Q100 128 80 128 Z"/>
-                <!-- doigts repliés -->
-                <rect x="70" y="80" width="32" height="14" rx="7"/>
-                <rect x="70" y="94" width="32" height="14" rx="7"/>
-                <rect x="70" y="108" width="30" height="13" rx="6.5"/>
-              </g>
-              <!-- pouce, posé sur l'index -->
-              <path d="M52 100 L72 54" stroke="#2b2320" stroke-width="22"/>
-              <path d="M52 100 L72 54" stroke="#fff" stroke-width="15.6"/>
-              <path d="M68 60 q-4 1 -5 5" stroke="#2b2320" stroke-width="2.2" fill="none"/>
-              <!-- poignet -->
-              <rect x="36" y="124" width="70" height="12" rx="3" fill="#fff" stroke="#2b2320" stroke-width="3.2"/>
+          <svg class="panel__icon fheart" viewBox="0 -24 120 188" aria-hidden="true" focusable="false">
+            <defs>
+              <path id="fh-hand" d="M38 142C28 128 15 112 14 96C13 84 15 74 19 66L14 36C12 27 17 21 23 21C28 21 31 25 32 31L37 42L57 17C61 11 69 10 74 14C78 18 78 23 76 27L62 56C68 52 78 56 78 64C84 64 92 70 91 78C98 80 103 88 100 96C98 112 92 128 88 142Z"/>
+            </defs>
+            <!-- petit cœur qui s'échappe du croisement pouce / index -->
+            <path class="fheart__pop" d="M45 6c-3-6-12-5-12 2 0 5 7 9 12 13 5-4 12-8 12-13 0-7-9-8-12-2z" fill="#d13a4a" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/>
+            <g class="fheart__hand" stroke-linejoin="round" stroke-linecap="round">
+              <use href="#fh-hand" fill="#fff" stroke="#fff" stroke-width="13"/>
+              <rect x="26" y="142" width="70" height="16" rx="2" fill="#fff" stroke="#fff" stroke-width="13"/>
+              <use href="#fh-hand" fill="#fff" stroke="#2b2320" stroke-width="3"/>
+              <!-- l'index passe devant le pouce, puis plis des doigts repliés -->
+              <path d="M37 42L25 58M62 56L50 80M78 64L67 86M91 78L81 96" fill="none" stroke="#2b2320" stroke-width="3"/>
+              <rect x="26" y="142" width="70" height="16" rx="2" fill="#fff" stroke="#2b2320" stroke-width="3"/>
             </g>
           </svg>
           <span class="panel__label">Fait avec amour<small lang="ko">사랑을 담아</small></span>
