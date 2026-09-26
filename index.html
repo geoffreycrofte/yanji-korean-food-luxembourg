@@ -9,7 +9,7 @@
   <meta name="description" content="Yanji Korean Food, petit restaurant coréen au 63 avenue de la Gare à Luxembourg. Kimbap, bibimbap en pot de pierre, tteokbokki, soupes épicées et poulet frit coréen. Ouvert du lundi au samedi, 11h00–17h30.">
   <meta name="keywords" content="restaurant coréen Luxembourg, Korean food Luxembourg, kimbap, bibimbap, tteokbokki, poulet frit coréen, avenue de la Gare, Luxembourg-Gare, Yanji">
   <meta name="robots" content="index, follow, max-image-preview:large">
-  <meta name="theme-color" content="#e3505e">
+  <meta name="theme-color" content="#d13a4a">
   <!-- TODO : remplacer https://www.yanji.lu/ par le vrai nom de domaine -->
   <link rel="canonical" href="https://www.yanji.lu/">
   <link rel="alternate" hreflang="fr" href="https://www.yanji.lu/">
@@ -31,6 +31,16 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Animations : préférence système, puis choix mémorisé de l'utilisateur -->
+  <script>
+    (function () {
+      var d = document.documentElement, v = null;
+      d.classList.add('js');
+      try { v = localStorage.getItem('yanji-motion'); } catch (e) {}
+      if (v === 'off' || (v === null && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) d.classList.add('motion-off');
+    })();
+  </script>
 
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -112,14 +122,14 @@
        Design tokens — couleurs tirées du flyer
        ========================================================= */
     :root {
-      --red: #e3505e;
-      --red-dark: #c23847;
+      --red: #d13a4a;          /* 4.76:1 avec du blanc */
+      --red-dark: #a82d3a;
       --blue: #3552b8;
       --blue-dark: #263f96;
       --orange: #f6a74b;
       --yellow: #f7c948;
-      --green: #3f9e5a;
-      --green-dark: #2d7d45;
+      --green: #2f8049;        /* 4.88:1 avec du blanc */
+      --green-dark: #1f5f34;
       --pink: #f5a9c4;
       --purple: #4a3f8f;
       --ink: #2b2320;
@@ -167,7 +177,8 @@
       background: var(--ink); color: #fff; padding: .6rem 1rem; border-radius: 8px;
     }
     .skip-link:focus { top: 1rem; }
-    :focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; border-radius: 6px; }
+    :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; border-radius: 6px; }
+    .howto :focus-visible, .info :focus-visible, .site-footer :focus-visible, .marquee :focus-visible { outline-color: #fff; }
 
     .container { width: min(1180px, 100% - 32px); margin-inline: auto; }
 
@@ -195,8 +206,19 @@
     .site-header.is-scrolled { box-shadow: 0 6px 20px -12px rgba(43, 35, 32, .35); }
     .site-header__inner {
       height: var(--header-h);
-      display: flex; align-items: center; gap: 1rem;
+      display: flex; align-items: center; gap: .6rem;
     }
+    .motion-btn {
+      width: 40px; height: 40px; flex: 0 0 auto; border-radius: 50%;
+      display: inline-grid; place-items: center;
+      border: 2px solid var(--ink); background: var(--paper);
+    }
+    .motion-btn svg { width: 16px; height: 16px; }
+    .motion-btn .icon-play { display: none; }
+    .motion-btn[aria-pressed="true"] { background: var(--ink); color: #fff; }
+    .motion-btn[aria-pressed="true"] .icon-play { display: block; }
+    .motion-btn[aria-pressed="true"] .icon-pause { display: none; }
+    @media (max-width: 360px) { .site-header .brand .seal { display: none; } }
     .brand { display: flex; align-items: center; gap: .55rem; text-decoration: none; margin-right: auto; }
     .brand__roll { width: 30px; height: 46px; transition: transform .4s var(--ease-bounce); }
     .brand:hover .brand__roll { transform: rotate(-12deg) scale(1.08); }
@@ -209,7 +231,7 @@
     }
     .brand .seal { transform: rotate(4deg); }
 
-    .nav { display: flex; align-items: center; gap: .25rem; }
+    .nav ul { display: flex; align-items: center; gap: .25rem; }
     .nav a {
       text-decoration: none; font-weight: 700; padding: .45rem .8rem; border-radius: 999px;
       transition: background .2s, color .2s;
@@ -232,12 +254,12 @@
       transition: opacity .2s, transform .2s, visibility .2s;
     }
     .lang.is-open .lang__menu { opacity: 1; visibility: visible; transform: none; }
-    .lang__menu a, .lang__menu span {
+    .lang__menu a, .lang__menu li > span {
       display: flex; justify-content: space-between; align-items: center; gap: .6rem;
       padding: .45rem .6rem; border-radius: 8px; text-decoration: none; font-weight: 700;
     }
     .lang__menu a[aria-current] { background: var(--cream); }
-    .lang__menu span[aria-disabled] { color: var(--ink-soft); opacity: .7; }
+    .lang__menu li > span { color: var(--ink-soft); }
     .lang__menu small {
       font-size: .68rem; background: var(--yellow); color: var(--ink);
       padding: .05rem .4rem; border-radius: 999px; font-weight: 800;
@@ -286,7 +308,8 @@
         z-index: -1;
       }
       .nav.is-open { transform: none; visibility: visible; }
-      .nav a { font-size: 1.2rem; padding: .8rem 1rem; }
+      .nav ul { flex-direction: column; align-items: stretch; }
+      .nav a { display: block; font-size: 1.2rem; padding: .8rem 1rem; }
     }
 
     /* ---------- Hero ---------- */
@@ -358,7 +381,8 @@
     }
     .panel:nth-child(1) { background-color: var(--red); animation-delay: .2s; }
     .panel:nth-child(2) { background-color: var(--blue); animation-delay: .35s; }
-    .panel:nth-child(3) { background-color: var(--orange); animation-delay: .5s; }
+    .panel:nth-child(3) { background-color: var(--orange); color: var(--ink); animation-delay: .5s; }
+    .panel:nth-child(3) .panel__label { text-shadow: none; }
     @keyframes panel-in { to { opacity: 1; transform: none; } }
     .panel__icon {
       width: 68%; max-width: 220px;
@@ -368,13 +392,14 @@
     .panel:hover .panel__icon { transform: scale(1.08) rotate(-4deg); }
     .panel__label {
       font-family: var(--font-title); font-size: clamp(1rem, 2.6vw, 1.7rem); letter-spacing: .03em;
-      text-transform: uppercase; text-shadow: 2px 2px 0 rgba(0,0,0,.18); line-height: 1.1;
+      text-transform: uppercase; text-shadow: 2px 2px 0 rgba(0,0,0,.25); line-height: 1.1;
     }
-    .panel__label small { display: block; font-family: var(--font-ko); font-size: .6em; letter-spacing: .1em; opacity: .9; margin-top: .25em; }
+    .panel__label small { display: block; font-family: var(--font-ko); font-size: .6em; letter-spacing: .1em; margin-top: .25em; }
 
-    .flower-spin { transform-origin: 50% 50%; animation: spin 24s linear infinite; }
+    .flower-spin, .heart-beat, .hand-bob { transform-box: fill-box; transform-origin: 50% 50%; }
+    .flower-spin { animation: spin 30s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .heart-beat { transform-origin: 50% 50%; animation: beat 1.4s ease-in-out infinite; }
+    .heart-beat { animation: beat 1.6s ease-in-out infinite; }
     @keyframes beat { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.25); } 30% { transform: scale(1); } 45% { transform: scale(1.15); } }
     .hand-bob { animation: bob 3s ease-in-out infinite; transform-origin: 50% 100%; }
     @keyframes bob { 50% { transform: translateY(-4px) rotate(-3deg); } }
@@ -520,7 +545,7 @@
         repeating-linear-gradient(135deg, var(--c1, var(--orange)) 0 22px, var(--c2, var(--yellow)) 22px 44px);
     }
     .dish__media.is-fallback::after {
-      content: attr(data-ko); font-family: var(--font-ko); font-weight: 700; font-size: 2rem;
+      content: attr(data-ko); content: attr(data-ko) / ""; font-family: var(--font-ko); font-weight: 700; font-size: 2rem;
       color: #fff; text-shadow: 3px 3px 0 var(--ink); padding: 0 1rem; text-align: center;
     }
     .dish__num {
@@ -633,12 +658,12 @@
 
     /* ---------- Comment manger le bibimbap ---------- */
     .howto { background: var(--blue); color: #fff; overflow: hidden; }
-    .howto .section-title > span:nth-child(1) { background: var(--yellow); color: #fff; }
+    .howto .section-title > span:nth-child(1) { background: var(--yellow); color: var(--ink); text-shadow: none; -webkit-text-stroke: 0; }
     .howto__grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
     .steps { counter-reset: step; display: grid; gap: 1rem; }
     .step {
       display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: center;
-      background: rgba(255, 255, 255, .1); border: 2px solid rgba(255, 255, 255, .25);
+      background: rgba(0, 0, 0, .12); border: 2px solid rgba(255, 255, 255, .35);
       border-radius: var(--radius); padding: 1rem 1.2rem;
       transition: background .3s, transform .3s var(--ease-bounce), border-color .3s;
     }
@@ -649,7 +674,7 @@
       background: var(--red); color: #fff; font-family: var(--font-title); font-size: 1.3rem;
     }
     .step strong { display: block; font-size: 1.15rem; }
-    .step span { font-size: .95rem; opacity: .85; }
+    .step span { font-size: .95rem; }
     .howto__actions { display: flex; gap: .8rem; margin-top: 1.5rem; flex-wrap: wrap; }
     .howto__actions .btn { color: var(--ink); }
 
@@ -675,23 +700,23 @@
     .bowl-stage.is-mixed .enjoy { transform: rotate(-10deg) scale(1); }
 
     /* ---------- Infos pratiques ---------- */
-    .info { background: var(--green); color: #fff; overflow: hidden; padding-bottom: clamp(6rem, 12vw, 9rem); }
+    .info { background: var(--green); color: #fff; overflow: hidden; padding-bottom: clamp(8rem, 14vw, 11rem); }
     .info .section-title > span:nth-child(1) { background: var(--red); }
     .info .section-title > span:nth-child(2) { background: var(--blue); }
-    .info__grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 1.5rem; position: relative; z-index: 1; }
+    .info .container { position: relative; z-index: 1; }
+    .info__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start; }
     .info-card {
       background: var(--paper); color: var(--ink); border: 3px solid var(--ink); border-radius: var(--radius);
       padding: 1.4rem; box-shadow: var(--shadow-pop);
     }
-    .info-card + .info-card { margin-top: 1.5rem; }
     .info-card h3 { font-family: var(--font-title); font-weight: 400; text-transform: uppercase; font-size: 1.6rem; letter-spacing: .02em; margin-bottom: .8rem; display: flex; align-items: center; gap: .5rem; }
     .hours { width: 100%; border-collapse: collapse; font-size: 1rem; }
     .hours th, .hours td { padding: .45rem .6rem; text-align: left; border-bottom: 1.5px dotted var(--line); }
-    .hours td { text-align: right; font-weight: 700; }
+    .hours td { text-align: right; font-weight: 700; white-space: nowrap; }
     .hours th { font-weight: 600; }
     .hours tr.is-today { background: #fff4dc; }
     .hours tr.is-today th { font-weight: 800; }
-    .hours tr.is-today th::after { content: " · aujourd'hui"; font-size: .8rem; color: var(--red); font-weight: 800; }
+    .today-flag { font-size: .8rem; color: var(--red-dark); font-weight: 800; }
     .hours tr.is-closed td { color: var(--red); }
     .contact-list li { display: flex; gap: .8rem; align-items: flex-start; padding: .55rem 0; }
     .contact-list .ico {
@@ -702,20 +727,15 @@
     .contact-list strong { display: block; font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-soft); }
     .contact-list a { font-weight: 800; font-size: 1.15rem; text-decoration-color: var(--red); text-decoration-thickness: 2px; text-underline-offset: 3px; }
     .contact-list address { font-style: normal; font-weight: 800; font-size: 1.1rem; }
-    .map {
-      height: 100%; min-height: 380px; border: 3px solid var(--ink); border-radius: var(--radius);
-      overflow: hidden; box-shadow: var(--shadow-pop); background: #e8e2d5; position: relative;
-    }
-    .map iframe { width: 100%; height: 100%; min-height: 380px; border: 0; display: block; }
-    .map__links { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1rem; }
-    .map__links .btn { font-size: .92rem; }
+    .directions { margin: 1rem 0 0; }
 
     .hibiscus-row {
-      position: absolute; left: 0; right: 0; bottom: -30px; height: 180px; pointer-events: none;
+      position: absolute; left: 0; right: 0; bottom: 0; height: 150px; pointer-events: none;
       display: flex; justify-content: space-between; align-items: flex-end; padding-inline: 2%;
+      overflow: hidden;
     }
-    .hibiscus-row svg { width: clamp(90px, 14vw, 170px); flex: 0 0 auto; animation: sway 6s ease-in-out infinite; transform-origin: 50% 100%; }
-    .hibiscus-row svg:nth-child(2n) { animation-delay: -2s; margin-bottom: -40px; }
+    .hibiscus-row svg { width: clamp(80px, 12vw, 150px); height: auto; aspect-ratio: 1; flex: 0 0 auto; margin-bottom: -20px; animation: sway 6s ease-in-out infinite; transform-origin: 50% 100%; }
+    .hibiscus-row svg:nth-child(2n) { animation-delay: -2s; margin-bottom: -30px; }
     .hibiscus-row svg:nth-child(3n) { animation-delay: -4s; width: clamp(70px, 10vw, 130px); }
     @keyframes sway { 50% { transform: rotate(6deg); } }
     .petals { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
@@ -734,7 +754,7 @@
     .site-footer .brand__name { color: #fff; font-size: 2.4rem; }
     .site-footer a { color: #fff; }
     .site-footer p { margin: .25rem 0; }
-    .credits { margin-top: 2rem; padding-top: 1.2rem; border-top: 1px solid rgba(255,255,255,.15); font-size: .8rem; opacity: .75; }
+    .credits { margin-top: 2rem; padding-top: 1.2rem; border-top: 1px solid rgba(255,255,255,.2); font-size: .85rem; color: #d9cfc6; }
 
     /* Bouton d'appel flottant (mobile) */
     .fab-call {
@@ -765,16 +785,24 @@
       .panel { aspect-ratio: 3 / 5; padding: .5rem; }
       .panel__icon { width: 88%; }
       .fab-call { display: grid; }
+      .site-footer { padding-bottom: calc(2rem + 88px); }
       .features { grid-template-columns: 1fr; }
       .feature:nth-child(even) { transform: rotate(1deg); }
       .dishes { grid-template-columns: 1fr; }
       .filters__count { margin-left: 0; flex-basis: 100%; }
     }
 
+    /* Animations coupées : bouton « pause » ou préférence système (sans JS : media query seule) */
+    html.motion-off, html.motion-off *, html.motion-off *::before, html.motion-off *::after {
+      animation-duration: .01ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important;
+      transition-duration: .01ms !important; transition-delay: 0s !important; scroll-behavior: auto !important;
+    }
+    html.motion-off .petal { display: none; }
+    html.motion-off .reveal { opacity: 1; transform: none; }
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
-      .petal { display: none; }
-      .reveal { opacity: 1; transform: none; }
+      html:not(.js), html:not(.js) *, html:not(.js) *::before, html:not(.js) *::after {
+        animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important;
+      }
     }
   </style>
 </head>
@@ -835,21 +863,31 @@
       </a>
 
       <nav class="nav" id="nav" aria-label="Navigation principale">
-        <a href="#menu">La carte</a>
-        <a href="#bibimbap-guide">Bibimbap</a>
-        <a href="#infos">Horaires & accès</a>
+        <ul>
+          <li><a href="#menu">La carte</a></li>
+          <li><a href="#bibimbap-guide">Bibimbap</a></li>
+          <li><a href="#infos">Horaires &amp; accès</a></li>
+        </ul>
       </nav>
 
+      <button class="motion-btn" type="button" id="motion-toggle" aria-pressed="false" title="Mettre en pause les animations">
+        <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><rect x="5" y="4" width="5" height="16" rx="1.5"/><rect x="14" y="4" width="5" height="16" rx="1.5"/></svg>
+        <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5z"/></svg>
+        <span class="visually-hidden">Mettre en pause les animations</span>
+      </button>
+
       <div class="lang" id="lang">
-        <button class="lang__btn" type="button" aria-expanded="false" aria-controls="lang-menu" aria-label="Choisir la langue">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>
-          FR
+        <button class="lang__btn" type="button" aria-expanded="false" aria-controls="lang-menu">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>
+          <span class="visually-hidden">Langue : </span>FR
         </button>
         <div class="lang__menu" id="lang-menu">
-          <a href="#" aria-current="true" hreflang="fr" lang="fr">Français <span aria-hidden="true">✓</span></a>
-          <span aria-disabled="true" lang="en">English <small>bientôt</small></span>
-          <span aria-disabled="true" lang="ko">한국어 <small>bientôt</small></span>
-          <span aria-disabled="true" lang="zh">中文 <small>bientôt</small></span>
+          <ul>
+            <li><a href="./" aria-current="page" hreflang="fr" lang="fr">Français <span aria-hidden="true">✓</span></a></li>
+            <li><span><span lang="en">English</span> <small>bientôt</small></span></li>
+            <li><span><span lang="ko">한국어</span> <small>bientôt</small></span></li>
+            <li><span><span lang="zh">中文</span> <small>bientôt</small></span></li>
+          </ul>
         </div>
       </div>
 
@@ -864,7 +902,7 @@
     </div>
   </header>
 
-  <main id="main">
+  <main id="main" tabindex="-1">
     <!-- ================= HERO ================= -->
     <section class="hero" aria-labelledby="hero-title">
       <div class="stripes" aria-hidden="true"></div>
@@ -872,14 +910,15 @@
         <div class="hero__top">
           <svg class="hero__roll" viewBox="0 0 80 124" aria-hidden="true"><use href="#kimbap"/></svg>
           <h1 class="hero__title" id="hero-title">
-            <span class="logo" aria-label="Yanji"><span>Y</span><span>A</span><span>N</span><span>J</span><span>I</span></span>
-            <span class="sub">Korean Food<span class="visually-hidden"> – restaurant coréen à Luxembourg-Gare</span></span>
+            <span class="visually-hidden">Yanji</span>
+            <span class="logo" aria-hidden="true"><span>Y</span><span>A</span><span>N</span><span>J</span><span>I</span></span>
+            <span class="sub"><span lang="en">Korean Food</span><span class="visually-hidden"> – restaurant coréen à Luxembourg-Gare</span></span>
           </h1>
           <span class="seal hero__seal" lang="ko" aria-hidden="true"><span>연</span><span>길</span></span>
         </div>
         <div class="hero__intro">
           <p>Kimbap roulés, bibimbap en pot de pierre, soupes épicées et poulet frit coréen, à deux pas de la gare de Luxembourg.</p>
-          <span class="status" id="open-status" role="status">Lun – Sam · 11h00 – 17h30</span>
+          <span class="status" id="open-status" role="status" aria-atomic="true">Lun – Sam · 11h00 – 17h30</span>
           <a class="btn btn--yellow" href="#menu">Voir la carte</a>
           <a class="btn" href="#infos">Nous trouver</a>
         </div>
@@ -903,14 +942,27 @@
           <span class="panel__label">Saveurs de Corée<small lang="ko">한국의 맛</small></span>
         </div>
         <div class="panel" id="heart-panel">
-          <svg class="panel__icon" viewBox="0 0 120 130">
-            <g class="heart-beat"><path d="M88 22c-4-8-16-6-16 3 0 7 9 12 16 18 7-6 16-11 16-18 0-9-12-11-16-3z" fill="#e3505e" stroke="#fff" stroke-width="3"/></g>
-            <g class="hand-bob" fill="#fff" stroke="#2b2320" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
-              <path d="M32 112V70c0-10 6-18 16-20l20-4c8-2 14 4 14 12v34c0 12-8 20-20 20H32z"/>
-              <path d="M58 48l6-26c2-8 12-7 11 1l-4 28"/>
-              <path d="M44 56c2-16 10-28 20-30 7-1 9 7 3 11-8 5-10 12-12 20"/>
-              <path d="M52 74h26M54 88h24"/>
-              <rect x="26" y="108" width="54" height="14" rx="3"/>
+          <svg class="panel__icon" viewBox="0 0 120 140" aria-hidden="true" focusable="false">
+            <g class="heart-beat"><path d="M62 24c-5-10-20-8-20 3 0 9 11 15 20 22 9-7 20-13 20-22 0-11-15-13-20-3z" fill="#d13a4a" stroke="#fff" stroke-width="3.5" stroke-linejoin="round"/></g>
+            <g class="hand-bob" stroke-linecap="round" stroke-linejoin="round">
+              <!-- index -->
+              <path d="M82 84 L54 50" stroke="#2b2320" stroke-width="21"/>
+              <path d="M82 84 L54 50" stroke="#fff" stroke-width="14.6"/>
+              <path d="M58 60 q3 -2 6 0" stroke="#2b2320" stroke-width="2.4" fill="none"/>
+              <g fill="#fff" stroke="#2b2320" stroke-width="3.2">
+                <!-- poing -->
+                <path d="M42 128 V98 Q42 84 56 81 L84 76 Q100 74 100 88 V108 Q100 128 80 128 Z"/>
+                <!-- doigts repliés -->
+                <rect x="70" y="80" width="32" height="14" rx="7"/>
+                <rect x="70" y="94" width="32" height="14" rx="7"/>
+                <rect x="70" y="108" width="30" height="13" rx="6.5"/>
+              </g>
+              <!-- pouce, posé sur l'index -->
+              <path d="M52 100 L72 54" stroke="#2b2320" stroke-width="22"/>
+              <path d="M52 100 L72 54" stroke="#fff" stroke-width="15.6"/>
+              <path d="M68 60 q-4 1 -5 5" stroke="#2b2320" stroke-width="2.2" fill="none"/>
+              <!-- poignet -->
+              <rect x="36" y="124" width="70" height="12" rx="3" fill="#fff" stroke="#2b2320" stroke-width="3.2"/>
             </g>
           </svg>
           <span class="panel__label">Fait avec amour<small lang="ko">사랑을 담아</small></span>
@@ -997,9 +1049,9 @@
       <div class="container">
         <div class="filters reveal" role="group" aria-label="Filtrer la carte">
           <span class="filters__label">Filtrer&nbsp;:</span>
-          <button class="chip" type="button" data-filter="veg" aria-pressed="false">🌱 Végétarien</button>
-          <button class="chip" type="button" data-filter="mild" aria-pressed="false">😌 Sans piment</button>
-          <span class="filters__count" id="filter-count" aria-live="polite"></span>
+          <button class="chip" type="button" data-filter="veg" aria-pressed="false"><span aria-hidden="true">🌱 </span>Végétarien</button>
+          <button class="chip" type="button" data-filter="mild" aria-pressed="false"><span aria-hidden="true">😌 </span>Sans piment</button>
+          <span class="filters__count" id="filter-count" role="status" aria-atomic="true"></span>
           <details>
             <summary>Masquer les plats contenant un allergène…</summary>
             <div class="allergen-picker" id="allergen-picker"><!-- rempli en JS depuis la légende --></div>
@@ -1015,16 +1067,16 @@
 
             <article class="dish reveal" data-allergens="3,11" data-spicy>
               <figure class="dish__media" data-ko="소힘줄 김밥" style="--c1:#e3505e;--c2:#f6a74b">
-                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Gimbap_by_iankasley_at_Koreana_Plaza,_Oakland.jpg?width=640" alt="Kimbap au tendon de bœuf" width="640" height="480" loading="lazy" decoding="async">
-                <span class="dish__num" aria-label="Plat n°1">1</span>
-                <span class="placeholder-tag">Photo d'illustration</span>
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Gimbap_by_iankasley_at_Koreana_Plaza,_Oakland.jpg?width=640" alt="" width="640" height="480" loading="lazy" decoding="async">
+                <span class="dish__num"><span class="visually-hidden">Plat n°</span>1</span>
+                <span class="placeholder-tag" aria-hidden="true">Photo d'illustration</span>
               </figure>
               <div class="dish__body">
                 <div class="dish__head">
                   <h4 class="dish__name">Rouleau au tendon de bœuf<span class="dish__ko" lang="ko">소힘줄 김밥</span></h4>
                   <p class="price">12,99&nbsp;€</p>
                 </div>
-                <p class="dish__tags"><span class="tag tag--spicy">🌶️ Épicé</span></p>
+                <p class="dish__tags"><span class="tag tag--spicy"><span aria-hidden="true">🌶️ </span>Épicé</span></p>
                 <p class="dish__desc">Tendon de bœuf, saucisson de porc, radis jaune mariné, œufs, concombre, carottes, algue, sésame, huile de sésame, mayonnaise.</p>
                 <ul class="allergens" data-list="3,11"></ul>
               </div>
@@ -1033,16 +1085,16 @@
 
             <article class="dish reveal" data-allergens="3,4,11" data-spicy>
               <figure class="dish__media" data-ko="참치 김치 김밥" style="--c1:#3552b8;--c2:#3f9e5a">
-                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kimbap_at_Korea_House_in_Cleveland.jpg?width=640" alt="Kimbap kimchi et thon" width="640" height="480" loading="lazy" decoding="async">
-                <span class="dish__num" aria-label="Plat n°2">2</span>
-                <span class="placeholder-tag">Photo d'illustration</span>
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kimbap_at_Korea_House_in_Cleveland.jpg?width=640" alt="" width="640" height="480" loading="lazy" decoding="async">
+                <span class="dish__num"><span class="visually-hidden">Plat n°</span>2</span>
+                <span class="placeholder-tag" aria-hidden="true">Photo d'illustration</span>
               </figure>
               <div class="dish__body">
                 <div class="dish__head">
                   <h4 class="dish__name">Rouleau kimchi &amp; thon<span class="dish__ko" lang="ko">참치 김치 김밥</span></h4>
                   <p class="price">12,99&nbsp;€</p>
                 </div>
-                <p class="dish__tags"><span class="tag tag--spicy">🌶️ Épicé</span></p>
+                <p class="dish__tags"><span class="tag tag--spicy"><span aria-hidden="true">🌶️ </span>Épicé</span></p>
                 <p class="dish__desc">Thon cuit, kimchi, radis jaune mariné, œufs, concombre, carottes, algue, sésame, huile de sésame, mayonnaise.</p>
                 <ul class="allergens" data-list="3,4,11"></ul>
               </div>
@@ -1051,9 +1103,9 @@
 
             <article class="dish reveal" data-allergens="3,11">
               <figure class="dish__media" data-ko="소고기 소시지 김밥" style="--c1:#f6a74b;--c2:#f7c948">
-                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Gimbap_with_meat.png?width=640" alt="Kimbap au bœuf et saucisson" width="640" height="480" loading="lazy" decoding="async">
-                <span class="dish__num" aria-label="Plat n°3">3</span>
-                <span class="placeholder-tag">Photo d'illustration</span>
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Gimbap_with_meat.png?width=640" alt="" width="640" height="480" loading="lazy" decoding="async">
+                <span class="dish__num"><span class="visually-hidden">Plat n°</span>3</span>
+                <span class="placeholder-tag" aria-hidden="true">Photo d'illustration</span>
               </figure>
               <div class="dish__body">
                 <div class="dish__head">
@@ -1068,9 +1120,9 @@
 
             <article class="dish reveal" data-allergens="3,6,7,11">
               <figure class="dish__media" data-ko="데리야끼 치킨 치즈 김밥" style="--c1:#f7c948;--c2:#e3505e">
-                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Gimbap_como_acompa%C3%B1amiento.jpg?width=640" alt="Kimbap au poulet teriyaki et fromage" width="640" height="480" loading="lazy" decoding="async">
-                <span class="dish__num" aria-label="Plat n°4">4</span>
-                <span class="placeholder-tag">Photo d'illustration</span>
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Gimbap_como_acompa%C3%B1amiento.jpg?width=640" alt="" width="640" height="480" loading="lazy" decoding="async">
+                <span class="dish__num"><span class="visually-hidden">Plat n°</span>4</span>
+                <span class="placeholder-tag" aria-hidden="true">Photo d'illustration</span>
               </figure>
               <div class="dish__body">
                 <div class="dish__head">
@@ -1085,16 +1137,16 @@
 
             <article class="dish reveal" data-allergens="6,11" data-veg>
               <figure class="dish__media" data-ko="야채 김밥" style="--c1:#3f9e5a;--c2:#f7c948">
-                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Gimbap_ingredients.png?width=640" alt="Kimbap végétarien aux champignons et légumes" width="640" height="480" loading="lazy" decoding="async">
-                <span class="dish__num" aria-label="Plat n°5">5</span>
-                <span class="placeholder-tag">Photo d'illustration</span>
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Gimbap_ingredients.png?width=640" alt="" width="640" height="480" loading="lazy" decoding="async">
+                <span class="dish__num"><span class="visually-hidden">Plat n°</span>5</span>
+                <span class="placeholder-tag" aria-hidden="true">Photo d'illustration</span>
               </figure>
               <div class="dish__body">
                 <div class="dish__head">
                   <h4 class="dish__name">Rouleau d'algue végétarien<span class="dish__ko" lang="ko">야채 김밥</span></h4>
                   <p class="price">12,99&nbsp;€</p>
                 </div>
-                <p class="dish__tags"><span class="tag tag--veg">🌱 Végétarien</span></p>
+                <p class="dish__tags"><span class="tag tag--veg"><span aria-hidden="true">🌱 </span>Végétarien</span></p>
                 <p class="dish__desc">Champignons, concombre, carotte, radis jaune mariné, sésame, huile de sésame, algue.</p>
                 <ul class="allergens" data-list="6,11"></ul>
               </div>
@@ -1111,16 +1163,16 @@
 
             <article class="dish reveal" data-allergens="3,8,11" data-spicy>
               <figure class="dish__media" data-ko="김치 돼지고기 비빔밥" style="--c1:#e3505e;--c2:#f5a9c4">
-                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Dolsot-bibimbap.jpg?width=640" alt="Bibimbap au kimchi et porc" width="640" height="480" loading="lazy" decoding="async">
-                <span class="dish__num" aria-label="Plat n°6">6</span>
-                <span class="placeholder-tag">Photo d'illustration</span>
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Dolsot-bibimbap.jpg?width=640" alt="" width="640" height="480" loading="lazy" decoding="async">
+                <span class="dish__num"><span class="visually-hidden">Plat n°</span>6</span>
+                <span class="placeholder-tag" aria-hidden="true">Photo d'illustration</span>
               </figure>
               <div class="dish__body">
                 <div class="dish__head">
                   <h4 class="dish__name">Bibimbap au kimchi &amp; porc<span class="dish__ko" lang="ko">김치 돼지고기 비빔밥</span></h4>
                   <p class="price">18,99&nbsp;€</p>
                 </div>
-                <p class="dish__tags"><span class="tag tag--spicy">🌶️ Épicé</span><span class="tag tag--side">+ soupe</span></p>
+                <p class="dish__tags"><span class="tag tag--spicy"><span aria-hidden="true">🌶️ </span>Épicé</span><span class="tag tag--side">+ soupe</span></p>
                 <p class="dish__desc">Kimchi, porc, algues, œufs.</p>
                 <ul class="allergens" data-list="3,8,11"></ul>
               </div>
@@ -1129,9 +1181,9 @@
 
             <article class="dish reveal" data-allergens="8,11">
               <figure class="dish__media" data-ko="데리야끼 치킨 비빔밥" style="--c1:#f6a74b;--c2:#f7c948">
-                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Korean_cuisine-BBQ_Chicken_Dolsot_Bibimbap.jpg?width=640" alt="Bibimbap au poulet teriyaki" width="640" height="480" loading="lazy" decoding="async">
-                <span class="dish__num" aria-label="Plat n°7">7</span>
-                <span class="placeholder-tag">Photo d'illustration</span>
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Korean_cuisine-BBQ_Chicken_Dolsot_Bibimbap.jpg?width=640" alt="" width="640" height="480" loading="lazy" decoding="async">
+                <span class="dish__num"><span class="visually-hidden">Plat n°</span>7</span>
+                <span class="placeholder-tag" aria-hidden="true">Photo d'illustration</span>
               </figure>
               <div class="dish__body">
                 <div class="dish__head">
@@ -1147,16 +1199,16 @@
 
             <article class="dish reveal" data-allergens="8,11" data-spicy data-veg>
               <figure class="dish__media" data-ko="야채 돌솥비빔밥" style="--c1:#3f9e5a;--c2:#f6a74b">
-                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Korean.food-Bibimbap-02.jpg?width=640" alt="Bibimbap végétarien en pot de pierre" width="640" height="480" loading="lazy" decoding="async">
-                <span class="dish__num" aria-label="Plat n°8">8</span>
-                <span class="placeholder-tag">Photo d'illustration</span>
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Korean.food-Bibimbap-02.jpg?width=640" alt="" width="640" height="480" loading="lazy" decoding="async">
+                <span class="dish__num"><span class="visually-hidden">Plat n°</span>8</span>
+                <span class="placeholder-tag" aria-hidden="true">Photo d'illustration</span>
               </figure>
               <div class="dish__body">
                 <div class="dish__head">
                   <h4 class="dish__name">Bibimbap végétarien<span class="dish__ko" lang="ko">야채 돌솥비빔밥</span></h4>
                   <p class="price">18,99&nbsp;€</p>
                 </div>
-                <p class="dish__tags"><span class="tag tag--veg">🌱 Végétarien</span><span class="tag tag--spicy">🌶️ Épicé</span><span class="tag tag--side">Pot de pierre + soupe</span></p>
+                <p class="dish__tags"><span class="tag tag--veg"><span aria-hidden="true">🌱 </span>Végétarien</span><span class="tag tag--spicy"><span aria-hidden="true">🌶️ </span>Épicé</span><span class="tag tag--side">Pot de pierre + soupe</span></p>
                 <p class="dish__desc">Carottes râpées, épinards, courgettes, fougère aigle, kimchi, champignons, germes de soja, algues, œufs.</p>
                 <ul class="allergens" data-list="8,11"></ul>
               </div>
@@ -1165,16 +1217,16 @@
 
             <article class="dish reveal" data-allergens="3,8,11" data-spicy>
               <figure class="dish__media" data-ko="소고기 돌솥비빔밥" style="--c1:#3552b8;--c2:#e3505e">
-                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Dolsot_bibimbap,_Hangang,_Paris_001.jpg?width=640" alt="Bibimbap au bœuf en pot de pierre" width="640" height="480" loading="lazy" decoding="async">
-                <span class="dish__num" aria-label="Plat n°9">9</span>
-                <span class="placeholder-tag">Photo d'illustration</span>
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Dolsot_bibimbap,_Hangang,_Paris_001.jpg?width=640" alt="" width="640" height="480" loading="lazy" decoding="async">
+                <span class="dish__num"><span class="visually-hidden">Plat n°</span>9</span>
+                <span class="placeholder-tag" aria-hidden="true">Photo d'illustration</span>
               </figure>
               <div class="dish__body">
                 <div class="dish__head">
                   <h4 class="dish__name">Bibimbap au bœuf<span class="dish__ko" lang="ko">소고기 돌솥비빔밥</span></h4>
                   <p class="price">21,99&nbsp;€</p>
                 </div>
-                <p class="dish__tags"><span class="tag tag--spicy">🌶️ Épicé</span><span class="tag tag--side">Pot de pierre + soupe</span></p>
+                <p class="dish__tags"><span class="tag tag--spicy"><span aria-hidden="true">🌶️ </span>Épicé</span><span class="tag tag--side">Pot de pierre + soupe</span></p>
                 <p class="dish__desc">Carottes râpées, épinards, courgettes, fougère aigle, kimchi, champignons, germes de soja, bœuf haché, œufs.</p>
                 <ul class="allergens" data-list="3,8,11"></ul>
               </div>
@@ -1191,9 +1243,9 @@
 
             <article class="dish reveal" data-allergens="3,11">
               <figure class="dish__media" data-ko="소고기 탕" style="--c1:#f6a74b;--c2:#fffaf2">
-                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Galbi-tang.jpg?width=640" alt="Soupe de bœuf coréenne" width="640" height="480" loading="lazy" decoding="async">
-                <span class="dish__num" aria-label="Plat n°11">11</span>
-                <span class="placeholder-tag">Photo d'illustration</span>
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Galbi-tang.jpg?width=640" alt="" width="640" height="480" loading="lazy" decoding="async">
+                <span class="dish__num"><span class="visually-hidden">Plat n°</span>11</span>
+                <span class="placeholder-tag" aria-hidden="true">Photo d'illustration</span>
               </figure>
               <div class="dish__body">
                 <div class="dish__head">
@@ -1209,16 +1261,16 @@
 
             <article class="dish reveal" data-allergens="3,11" data-spicy>
               <figure class="dish__media" data-ko="육개장" style="--c1:#e3505e;--c2:#f6a74b">
-                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Yukgaejang.jpg?width=640" alt="Soupe de bœuf épicée coréenne" width="640" height="480" loading="lazy" decoding="async">
-                <span class="dish__num" aria-label="Plat n°12">12</span>
-                <span class="placeholder-tag">Photo d'illustration</span>
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Yukgaejang.jpg?width=640" alt="" width="640" height="480" loading="lazy" decoding="async">
+                <span class="dish__num"><span class="visually-hidden">Plat n°</span>12</span>
+                <span class="placeholder-tag" aria-hidden="true">Photo d'illustration</span>
               </figure>
               <div class="dish__body">
                 <div class="dish__head">
                   <h4 class="dish__name">Soupe de bœuf épicée coréenne<span class="dish__ko" lang="ko">육개장</span></h4>
                   <p class="price">22&nbsp;€</p>
                 </div>
-                <p class="dish__tags"><span class="tag tag--spicy">🌶️ Épicé</span><span class="tag tag--side">+ riz</span></p>
+                <p class="dish__tags"><span class="tag tag--spicy"><span aria-hidden="true">🌶️ </span>Épicé</span><span class="tag tag--side">+ riz</span></p>
                 <p class="dish__desc">Bœuf, nouilles de riz, tofu, germes de soja, fougère, oignons, champignons, œufs.</p>
                 <ul class="allergens" data-list="3,11"></ul>
               </div>
@@ -1227,9 +1279,9 @@
 
             <article class="dish reveal" data-allergens="3">
               <figure class="dish__media" data-ko="규동" style="--c1:#f7c948;--c2:#fffaf2">
-                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Gyudon_from_Marugame_Udon_(2025-01-12).jpg?width=640" alt="Gyudon de bœuf" width="640" height="480" loading="lazy" decoding="async">
-                <span class="dish__num" aria-label="Plat n°13">13</span>
-                <span class="placeholder-tag">Photo d'illustration</span>
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Gyudon_from_Marugame_Udon_(2025-01-12).jpg?width=640" alt="" width="640" height="480" loading="lazy" decoding="async">
+                <span class="dish__num"><span class="visually-hidden">Plat n°</span>13</span>
+                <span class="placeholder-tag" aria-hidden="true">Photo d'illustration</span>
               </figure>
               <div class="dish__body">
                 <div class="dish__head">
@@ -1245,16 +1297,16 @@
 
             <article class="dish reveal" data-allergens="3,4" data-spicy>
               <figure class="dish__media" data-ko="떡볶이" style="--c1:#e3505e;--c2:#f5a9c4">
-                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Tteokbokki.JPG?width=640" alt="Tteokbokki, gâteaux de riz sautés épicés" width="640" height="480" loading="lazy" decoding="async">
-                <span class="dish__num" aria-label="Plat n°14">14</span>
-                <span class="placeholder-tag">Photo d'illustration</span>
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Tteokbokki.JPG?width=640" alt="" width="640" height="480" loading="lazy" decoding="async">
+                <span class="dish__num"><span class="visually-hidden">Plat n°</span>14</span>
+                <span class="placeholder-tag" aria-hidden="true">Photo d'illustration</span>
               </figure>
               <div class="dish__body">
                 <div class="dish__head">
                   <h4 class="dish__name">Tteokbokki<span class="dish__ko" lang="ko">떡볶이</span></h4>
                   <p class="price">18&nbsp;€</p>
                 </div>
-                <p class="dish__tags"><span class="tag tag--spicy">🌶️ Épicé</span><span class="tag tag--side">+ riz</span></p>
+                <p class="dish__tags"><span class="tag tag--spicy"><span aria-hidden="true">🌶️ </span>Épicé</span><span class="tag tag--side">+ riz</span></p>
                 <p class="dish__desc">Gâteaux de riz sautés, pâte de poisson, chou blanc, œufs, fromage.</p>
                 <ul class="allergens" data-list="3,4"></ul>
               </div>
@@ -1263,16 +1315,16 @@
 
             <article class="dish reveal" data-allergens="4" data-spicy>
               <figure class="dish__media" data-ko="김치찌개" style="--c1:#e3505e;--c2:#3552b8">
-                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Korean_stew-Kimchi_jjigae-01.jpg?width=640" alt="Soupe kimchi, porc et thon" width="640" height="480" loading="lazy" decoding="async">
-                <span class="dish__num" aria-label="Plat n°15">15</span>
-                <span class="placeholder-tag">Photo d'illustration</span>
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Korean_stew-Kimchi_jjigae-01.jpg?width=640" alt="" width="640" height="480" loading="lazy" decoding="async">
+                <span class="dish__num"><span class="visually-hidden">Plat n°</span>15</span>
+                <span class="placeholder-tag" aria-hidden="true">Photo d'illustration</span>
               </figure>
               <div class="dish__body">
                 <div class="dish__head">
                   <h4 class="dish__name">Soupe kimchi, porc &amp; thon<span class="dish__ko" lang="ko">김치찌개</span></h4>
                   <p class="price">18&nbsp;€</p>
                 </div>
-                <p class="dish__tags"><span class="tag tag--spicy">🌶️ Épicé</span><span class="tag tag--side">+ riz</span></p>
+                <p class="dish__tags"><span class="tag tag--spicy"><span aria-hidden="true">🌶️ </span>Épicé</span><span class="tag tag--side">+ riz</span></p>
                 <p class="dish__desc">Kimchi, tofu, porc, oignons, thon.</p>
                 <ul class="allergens" data-list="4"></ul>
               </div>
@@ -1281,9 +1333,9 @@
 
             <article class="dish reveal" data-allergens="">
               <figure class="dish__media" data-ko="치킨" style="--c1:#f6a74b;--c2:#e3505e">
-                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Korean_fried_chicken_yangnyeom.jpg?width=640" alt="Poulet frit coréen" width="640" height="480" loading="lazy" decoding="async">
-                <span class="dish__num" aria-label="Plat n°16">16</span>
-                <span class="placeholder-tag">Photo d'illustration</span>
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Korean_fried_chicken_yangnyeom.jpg?width=640" alt="" width="640" height="480" loading="lazy" decoding="async">
+                <span class="dish__num"><span class="visually-hidden">Plat n°</span>16</span>
+                <span class="placeholder-tag" aria-hidden="true">Photo d'illustration</span>
               </figure>
               <div class="dish__body">
                 <div class="dish__head">
@@ -1292,7 +1344,7 @@
                 </div>
                 <p class="dish__tags"><span class="tag tag--side">3 saveurs au choix</span></p>
                 <ul class="flavours">
-                  <li>Sucré &amp; épicé coréen 🌶️</li>
+                  <li>Sucré &amp; épicé coréen <span aria-hidden="true">🌶️</span></li>
                   <li>Moutarde &amp; miel</li>
                   <li>Soja</li>
                 </ul>
@@ -1309,23 +1361,23 @@
           <div class="menu-section__intro reveal"><p>Légumes marinés et fermentés, à partager ou à emporter.</p></div>
           <ul class="compact-grid">
             <li class="side reveal" data-spicy>
-              <span class="side__wrap"><span class="side__bowl" style="--fill:#e3505e" aria-hidden="true"></span><span class="dish__num" aria-label="n°17">17</span></span>
-              <span class="side__name">Kimchi 🌶️<small>Chou mariné</small><span class="dish__ko" lang="ko">배추김치</span></span>
+              <span class="side__wrap"><span class="side__bowl" style="--fill:#e3505e" aria-hidden="true"></span><span class="dish__num"><span class="visually-hidden">n°</span>17</span></span>
+              <span class="side__name">Kimchi <span aria-hidden="true">🌶️</span><span class="visually-hidden">(épicé)</span><small>Chou mariné</small><span class="dish__ko" lang="ko">배추김치</span></span>
               <span class="price">6&nbsp;€</span>
             </li>
             <li class="side reveal" data-spicy>
-              <span class="side__wrap"><span class="side__bowl" style="--fill:#f08a7e" aria-hidden="true"></span><span class="dish__num" aria-label="n°18">18</span></span>
-              <span class="side__name">Radis mariné 🌶️<small>Cubes de radis</small><span class="dish__ko" lang="ko">깍두기</span></span>
+              <span class="side__wrap"><span class="side__bowl" style="--fill:#f08a7e" aria-hidden="true"></span><span class="dish__num"><span class="visually-hidden">n°</span>18</span></span>
+              <span class="side__name">Radis mariné <span aria-hidden="true">🌶️</span><span class="visually-hidden">(épicé)</span><small>Cubes de radis</small><span class="dish__ko" lang="ko">깍두기</span></span>
               <span class="price">6&nbsp;€</span>
             </li>
             <li class="side reveal" data-spicy>
-              <span class="side__wrap"><span class="side__bowl" style="--fill:#f6a74b" aria-hidden="true"></span><span class="dish__num" aria-label="n°19">19</span></span>
-              <span class="side__name">Racine de campanule marinée 🌶️<small>Doraji</small><span class="dish__ko" lang="ko">도라지무침</span></span>
+              <span class="side__wrap"><span class="side__bowl" style="--fill:#f6a74b" aria-hidden="true"></span><span class="dish__num"><span class="visually-hidden">n°</span>19</span></span>
+              <span class="side__name">Racine de campanule marinée <span aria-hidden="true">🌶️</span><span class="visually-hidden">(épicé)</span><small>Doraji</small><span class="dish__ko" lang="ko">도라지무침</span></span>
               <span class="price">8&nbsp;€</span>
             </li>
             <li class="side reveal" data-spicy>
-              <span class="side__wrap"><span class="side__bowl" style="--fill:#8a5a3c" aria-hidden="true"></span><span class="dish__num" aria-label="n°20">20</span></span>
-              <span class="side__name">Fougère coréenne marinée 🌶️<small>Gosari</small><span class="dish__ko" lang="ko">고사리나물</span></span>
+              <span class="side__wrap"><span class="side__bowl" style="--fill:#8a5a3c" aria-hidden="true"></span><span class="dish__num"><span class="visually-hidden">n°</span>20</span></span>
+              <span class="side__name">Fougère coréenne marinée <span aria-hidden="true">🌶️</span><span class="visually-hidden">(épicé)</span><small>Gosari</small><span class="dish__ko" lang="ko">고사리나물</span></span>
               <span class="price">8&nbsp;€</span>
             </li>
           </ul>
@@ -1346,8 +1398,8 @@
             <div class="drinks__group reveal">
               <h4>Thés japonais</h4>
               <ul class="drinks__list">
-                <li><span class="n">Thé torréfié japonais<small>Hojicha</small></span><span class="dots"></span><span class="p">3&nbsp;€</span></li>
-                <li><span class="n">Thé vert japonais<small>Sencha</small></span><span class="dots"></span><span class="p">3&nbsp;€</span></li>
+                <li><span class="n">Thé torréfié japonais<small lang="ja-Latn">Hojicha</small></span><span class="dots"></span><span class="p">3&nbsp;€</span></li>
+                <li><span class="n">Thé vert japonais<small lang="ja-Latn">Sencha</small></span><span class="dots"></span><span class="p">3&nbsp;€</span></li>
               </ul>
             </div>
             <div class="drinks__group reveal">
@@ -1457,65 +1509,54 @@
       <div class="container">
         <h2 class="section-title reveal" id="infos-title"><span>Horaires &amp; accès</span><span lang="ko" aria-hidden="true">오시는 길</span><span aria-hidden="true"></span></h2>
         <div class="info__grid">
-          <div>
-            <div class="info-card reveal">
-              <h3><span aria-hidden="true">🕚</span> Horaires</h3>
-              <table class="hours" id="hours">
-                <caption class="visually-hidden">Horaires d'ouverture</caption>
-                <tbody>
-                  <tr data-day="1"><th scope="row">Lundi</th><td><time datetime="11:00">11h00</time> – <time datetime="17:30">17h30</time></td></tr>
-                  <tr data-day="2"><th scope="row">Mardi</th><td><time datetime="11:00">11h00</time> – <time datetime="17:30">17h30</time></td></tr>
-                  <tr data-day="3"><th scope="row">Mercredi</th><td><time datetime="11:00">11h00</time> – <time datetime="17:30">17h30</time></td></tr>
-                  <tr data-day="4"><th scope="row">Jeudi</th><td><time datetime="11:00">11h00</time> – <time datetime="17:30">17h30</time></td></tr>
-                  <tr data-day="5"><th scope="row">Vendredi</th><td><time datetime="11:00">11h00</time> – <time datetime="17:30">17h30</time></td></tr>
-                  <tr data-day="6"><th scope="row">Samedi</th><td><time datetime="11:00">11h00</time> – <time datetime="17:30">17h30</time></td></tr>
-                  <tr data-day="0" class="is-closed"><th scope="row">Dimanche</th><td>Fermé</td></tr>
-                </tbody>
-              </table>
-            </div>
-
-            <div class="info-card reveal">
-              <h3><span aria-hidden="true">📍</span> Contact</h3>
-              <ul class="contact-list">
-                <li>
-                  <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg></span>
-                  <div><strong>Téléphone</strong><a href="tel:+35228996111">+352 28 99 61 11</a></div>
-                </li>
-                <li>
-                  <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg></span>
-                  <div><strong>Adresse</strong>
-                    <address>63, avenue de la Gare<br>L-1611 Luxembourg</address>
-                  </div>
-                </li>
-                <li>
-                  <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="14" rx="3"/><path d="M4 11h16M8 21l2-4M16 21l-2-4"/><circle cx="8" cy="14" r="1" fill="currentColor"/><circle cx="16" cy="14" r="1" fill="currentColor"/></svg></span>
-                  <div><strong>Accès</strong>Quartier Gare, à quelques minutes à pied de la gare centrale et du tram.</div>
-                </li>
-              </ul>
-            </div>
+          <div class="info-card reveal">
+            <h3><span aria-hidden="true">🕚</span> Horaires</h3>
+            <table class="hours" id="hours">
+              <caption class="visually-hidden">Horaires d'ouverture</caption>
+              <tbody>
+                <tr data-day="1"><th scope="row">Lundi</th><td><time datetime="11:00">11h00</time> – <time datetime="17:30">17h30</time></td></tr>
+                <tr data-day="2"><th scope="row">Mardi</th><td><time datetime="11:00">11h00</time> – <time datetime="17:30">17h30</time></td></tr>
+                <tr data-day="3"><th scope="row">Mercredi</th><td><time datetime="11:00">11h00</time> – <time datetime="17:30">17h30</time></td></tr>
+                <tr data-day="4"><th scope="row">Jeudi</th><td><time datetime="11:00">11h00</time> – <time datetime="17:30">17h30</time></td></tr>
+                <tr data-day="5"><th scope="row">Vendredi</th><td><time datetime="11:00">11h00</time> – <time datetime="17:30">17h30</time></td></tr>
+                <tr data-day="6"><th scope="row">Samedi</th><td><time datetime="11:00">11h00</time> – <time datetime="17:30">17h30</time></td></tr>
+                <tr data-day="0" class="is-closed"><th scope="row">Dimanche</th><td>Fermé</td></tr>
+              </tbody>
+            </table>
           </div>
 
-          <div class="reveal">
-            <div class="map" id="map">
-              <iframe title="Plan : Yanji Korean Food, 63 avenue de la Gare, Luxembourg"
-                      src="https://www.openstreetmap.org/export/embed.html?bbox=6.1270%2C49.6005%2C6.1390%2C49.6057&amp;layer=mapnik&amp;marker=49.6031%2C6.1329"
-                      loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </div>
-            <div class="map__links">
-              <a class="btn btn--yellow" href="https://www.google.com/maps/dir/?api=1&amp;destination=63+avenue+de+la+Gare%2C+1611+Luxembourg" target="_blank" rel="noopener">🧭 Itinéraire Google Maps</a>
-              <a class="btn" href="https://www.openstreetmap.org/search?query=63%20avenue%20de%20la%20Gare%2C%20Luxembourg" target="_blank" rel="noopener">Ouvrir dans OpenStreetMap</a>
-            </div>
+          <div class="info-card reveal">
+            <h3><span aria-hidden="true">📍</span> Contact</h3>
+            <ul class="contact-list">
+              <li>
+                <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg></span>
+                <div><strong>Téléphone</strong><a href="tel:+35228996111">+352 28 99 61 11</a></div>
+              </li>
+              <li>
+                <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg></span>
+                <div><strong>Adresse</strong>
+                  <address>63, avenue de la Gare<br>L-1611 Luxembourg</address>
+                </div>
+              </li>
+              <li>
+                <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="14" rx="3"/><path d="M4 11h16M8 21l2-4M16 21l-2-4"/><circle cx="8" cy="14" r="1" fill="currentColor"/><circle cx="16" cy="14" r="1" fill="currentColor"/></svg></span>
+                <div><strong>Accès</strong>Quartier Gare, à quelques minutes à pied de la gare centrale et du tram.</div>
+              </li>
+            </ul>
+            <p class="directions">
+              <a class="btn btn--yellow" href="https://www.google.com/maps/dir/?api=1&amp;destination=63+avenue+de+la+Gare%2C+1611+Luxembourg" target="_blank" rel="noopener"><span aria-hidden="true">🧭 </span>Itinéraire Google Maps<span class="visually-hidden"> (nouvelle fenêtre)</span></a>
+            </p>
           </div>
         </div>
       </div>
 
       <div class="hibiscus-row" aria-hidden="true">
-        <svg viewBox="-60 -60 120 120"><use href="#hibiscus"/></svg>
-        <svg viewBox="-60 -60 120 120"><use href="#hibiscus"/></svg>
-        <svg viewBox="-60 -60 120 120"><use href="#hibiscus"/></svg>
-        <svg viewBox="-60 -60 120 120"><use href="#hibiscus"/></svg>
-        <svg viewBox="-60 -60 120 120"><use href="#hibiscus"/></svg>
-        <svg viewBox="-60 -60 120 120"><use href="#hibiscus"/></svg>
+        <svg viewBox="-60 -60 120 120" focusable="false"><use href="#hibiscus" x="-60" y="-60" width="120" height="120"/></svg>
+        <svg viewBox="-60 -60 120 120" focusable="false"><use href="#hibiscus" x="-60" y="-60" width="120" height="120"/></svg>
+        <svg viewBox="-60 -60 120 120" focusable="false"><use href="#hibiscus" x="-60" y="-60" width="120" height="120"/></svg>
+        <svg viewBox="-60 -60 120 120" focusable="false"><use href="#hibiscus" x="-60" y="-60" width="120" height="120"/></svg>
+        <svg viewBox="-60 -60 120 120" focusable="false"><use href="#hibiscus" x="-60" y="-60" width="120" height="120"/></svg>
+        <svg viewBox="-60 -60 120 120" focusable="false"><use href="#hibiscus" x="-60" y="-60" width="120" height="120"/></svg>
       </div>
     </section>
   </main>
@@ -1539,8 +1580,7 @@
       </div>
       <p class="credits">
         © <span id="year">2026</span> Yanji Korean Food. Photos d'illustration non contractuelles provenant de
-        <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> (licences CC BY / CC BY-SA, voir chaque fichier pour l'auteur).
-        Carte&nbsp;© contributeurs <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>.
+        <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons<span class="visually-hidden"> (nouvelle fenêtre)</span></a> (licences CC BY / CC BY-SA, voir chaque fichier pour l'auteur).
       </p>
     </div>
   </footer>
@@ -1553,7 +1593,19 @@
   (function () {
     'use strict';
 
-    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var root = document.documentElement;
+    var motionOff = function () { return root.classList.contains('motion-off'); };
+
+    /* ---------- Bouton pause / lecture des animations ---------- */
+    var motionBtn = document.getElementById('motion-toggle');
+    function syncMotionBtn() { motionBtn.setAttribute('aria-pressed', String(motionOff())); }
+    motionBtn.addEventListener('click', function () {
+      var off = !motionOff();
+      root.classList.toggle('motion-off', off);
+      try { localStorage.setItem('yanji-motion', off ? 'off' : 'on'); } catch (e) {}
+      syncMotionBtn();
+    });
+    syncMotionBtn();
     var $ = function (s, ctx) { return (ctx || document).querySelector(s); };
     var $$ = function (s, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(s)); };
 
@@ -1588,7 +1640,17 @@
       langBtn.setAttribute('aria-expanded', 'false');
     });
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') { lang.classList.remove('is-open'); langBtn.setAttribute('aria-expanded', 'false'); setNav(false); }
+      if (e.key !== 'Escape') return;
+      if (lang.classList.contains('is-open')) {
+        lang.classList.remove('is-open');
+        langBtn.setAttribute('aria-expanded', 'false');
+        langBtn.focus();
+      }
+      if (toggle.getAttribute('aria-expanded') === 'true') { setNav(false); toggle.focus(); }
+    });
+    // ferme le menu des langues quand le focus en sort
+    lang.addEventListener('focusout', function (e) {
+      if (!lang.contains(e.relatedTarget)) { lang.classList.remove('is-open'); langBtn.setAttribute('aria-expanded', 'false'); }
     });
 
     /* ---------- Ouvert / fermé (heure de Luxembourg) ---------- */
@@ -1622,7 +1684,19 @@
         var next = now.day === 6 || now.day === 0 ? 'lundi' : 'demain';
         el.textContent = 'Fermé · ouvre ' + next + ' à 11h00';
       }
-      $$('#hours tr').forEach(function (tr) { tr.classList.toggle('is-today', Number(tr.dataset.day) === now.day); });
+      $$('#hours tr').forEach(function (tr) {
+        var today = Number(tr.dataset.day) === now.day;
+        tr.classList.toggle('is-today', today);
+        var flag = tr.querySelector('.today-flag');
+        if (today && !flag) {
+          flag = document.createElement('span');
+          flag.className = 'today-flag';
+          flag.textContent = ' · aujourd\'hui';
+          tr.querySelector('th').appendChild(flag);
+        } else if (!today && flag) {
+          flag.remove();
+        }
+      });
     }
     updateStatus();
     setInterval(updateStatus, 60 * 1000);
@@ -1631,7 +1705,7 @@
     var ALLERGENS = {};
     $$('#allergen-legend li').forEach(function (li) {
       ALLERGENS[li.dataset.id] = {
-        name: li.querySelector('span:last-child').textContent.replace(/^\d+\.\s*/, ''),
+        name: li.querySelector('span:last-child').textContent.replace(/^\d+\.\s*/, '').trim(),
         icon: li.querySelector('.ico').textContent
       };
     });
@@ -1660,7 +1734,7 @@
       b.className = 'chip chip--allergen';
       b.dataset.allergen = id;
       b.setAttribute('aria-pressed', 'false');
-      b.textContent = ALLERGENS[id].icon + ' ' + ALLERGENS[id].name;
+      b.innerHTML = '<span aria-hidden="true">' + ALLERGENS[id].icon + ' </span>' + ALLERGENS[id].name;
       picker.appendChild(b);
     });
 
@@ -1704,7 +1778,7 @@
     });
 
     /* ---------- Révélation au scroll ---------- */
-    if ('IntersectionObserver' in window && !reduceMotion) {
+    if ('IntersectionObserver' in window) {
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
@@ -1736,7 +1810,7 @@
             if (on) {
               t.setAttribute('aria-current', 'true');
               var bar = t.parentNode;
-              bar.scrollTo({ left: t.offsetLeft - bar.clientWidth / 2 + t.clientWidth / 2, behavior: reduceMotion ? 'auto' : 'smooth' });
+              bar.scrollTo({ left: t.offsetLeft - bar.clientWidth / 2 + t.clientWidth / 2, behavior: motionOff() ? 'auto' : 'smooth' });
             } else {
               t.removeAttribute('aria-current');
             }
@@ -1749,7 +1823,7 @@
     /* ---------- Cœurs coréens (finger heart) ---------- */
     var heartPanel = $('#heart-panel');
     function popHearts(x, y) {
-      if (reduceMotion) return;
+      if (motionOff()) return;
       for (var i = 0; i < 6; i++) {
         var h = document.createElement('span');
         h.className = 'floating-heart';
@@ -1798,7 +1872,7 @@
     steps.forEach(function (s) {
       s.addEventListener('mouseenter', function () { if (!timers.length) setStep(Number(s.dataset.step)); });
     });
-    if ('IntersectionObserver' in window && !reduceMotion) {
+    if ('IntersectionObserver' in window && !motionOff()) {
       var autoPlay = new IntersectionObserver(function (entries) {
         if (entries[0].isIntersecting) { play(); autoPlay.disconnect(); }
       }, { threshold: 0.5 });
@@ -1806,7 +1880,7 @@
     }
 
     /* ---------- Pétales d'hibiscus ---------- */
-    if (!reduceMotion) {
+    (function () {
       var petals = $('#petals');
       for (var i = 0; i < 14; i++) {
         var p = document.createElement('span');
@@ -1819,7 +1893,7 @@
         p.style.width = p.style.height = size + 'px';
         petals.appendChild(p);
       }
-    }
+    })();
 
     /* ---------- Année ---------- */
     $('#year').textContent = new Date().getFullYear();
