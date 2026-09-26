@@ -2,39 +2,39 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://www.yanji.lu/</loc>
+    <loc>https://yanji.lu/</loc>
     <lastmod>2026-09-27</lastmod>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.yanji.lu/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.yanji.lu/en/"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://www.yanji.lu/ko/"/>
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://www.yanji.lu/zh/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.yanji.lu/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://yanji.lu/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://yanji.lu/en/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://yanji.lu/ko/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://yanji.lu/zh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://yanji.lu/"/>
   </url>
   <url>
-    <loc>https://www.yanji.lu/en/</loc>
+    <loc>https://yanji.lu/en/</loc>
     <lastmod>2026-09-27</lastmod>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.yanji.lu/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.yanji.lu/en/"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://www.yanji.lu/ko/"/>
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://www.yanji.lu/zh/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.yanji.lu/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://yanji.lu/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://yanji.lu/en/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://yanji.lu/ko/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://yanji.lu/zh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://yanji.lu/"/>
   </url>
   <url>
-    <loc>https://www.yanji.lu/ko/</loc>
+    <loc>https://yanji.lu/ko/</loc>
     <lastmod>2026-09-27</lastmod>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.yanji.lu/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.yanji.lu/en/"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://www.yanji.lu/ko/"/>
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://www.yanji.lu/zh/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.yanji.lu/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://yanji.lu/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://yanji.lu/en/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://yanji.lu/ko/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://yanji.lu/zh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://yanji.lu/"/>
   </url>
   <url>
-    <loc>https://www.yanji.lu/zh/</loc>
+    <loc>https://yanji.lu/zh/</loc>
     <lastmod>2026-09-27</lastmod>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.yanji.lu/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.yanji.lu/en/"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://www.yanji.lu/ko/"/>
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://www.yanji.lu/zh/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.yanji.lu/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://yanji.lu/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://yanji.lu/en/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://yanji.lu/ko/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://yanji.lu/zh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://yanji.lu/"/>
   </url>
 </urlset>

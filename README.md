@@ -12,7 +12,7 @@ Site one-page (HTML + CSS + JS vanilla, sans dépendance) du restaurant **Yanji 
 ## À faire avant la mise en ligne
 - Compléter les mentions légales dans `index.html` (valeurs `XXXX` surlignées en jaune, classe `todo`) :
   raison sociale, email, RCS, TVA, autorisation d'établissement, hébergeur. Puis relancer `python3 tools/build-i18n.py`.
-- Remplacer `https://www.yanji.lu/` par le vrai domaine (index.html, robots.txt, sitemap.xml).
+- Remplacer `https://yanji.lu/` par le vrai domaine (index.html, robots.txt, sitemap.xml).
 - Remplacer les photos d'illustration (Wikimedia Commons) par les vraies photos des plats.
 - Vérifier les coordonnées GPS des données structurées (`49.6031, 6.1329`).
 - Faire relire les traductions coréenne et chinoise par l'équipe.

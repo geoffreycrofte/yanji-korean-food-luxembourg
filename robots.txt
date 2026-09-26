@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.yanji.lu/sitemap.xml
+Sitemap: https://yanji.lu/sitemap.xml

@@ -16,7 +16,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SOURCE = ROOT / "index.html"
-SITE = "https://www.yanji.lu/"  # TODO : remplacer par le vrai domaine
+SITE = "https://yanji.lu/"  # TODO : remplacer par le vrai domaine
 
 LANGS = {
     "en": {"html": "en", "og": "en_GB", "button": "EN", "label": "Language: ", "font": None},
@@ -597,7 +597,7 @@ def build(code):
     html = replace_once(html, f'<meta property="og:url" content="{SITE}">', f'<meta property="og:url" content="{url}">', "og:url")
     html = replace_once(html, '<meta property="og:locale" content="fr_FR">', f'<meta property="og:locale" content="{cfg["og"]}">', "og:locale")
     html = replace_once(html, '"inLanguage": "fr"', f'"inLanguage": "{cfg["html"]}"', "inLanguage")
-    html = replace_once(html, '"url": "https://www.yanji.lu/"', f'"url": "{url}"', "json url")
+    html = replace_once(html, '"url": "https://yanji.lu/"', f'"url": "{url}"', "json url")
     html = html.replace('href="assets/', 'href="../assets/').replace("url(assets/", "url(../assets/")
     html = re.sub(r"<!-- i18n:langs -->.*?<!-- /i18n:langs -->", lambda m: lang_menu(code, "../"), html, flags=re.S)
     html = replace_once(html, '<span class="visually-hidden">Langue : </span>FR',
