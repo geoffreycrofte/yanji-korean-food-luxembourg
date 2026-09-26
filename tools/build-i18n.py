@@ -377,6 +377,9 @@ ROWS = [
      "(CC BY / CC BY-SA 라이선스, 저작자는 각 파일 참고).",
      "（CC BY / CC BY-SA 许可，作者见各文件）。"),
 
+    ("\n        Site web par <a", "\n        Website by <a", "\n        웹사이트 제작: <a", "\n        网站制作：<a"),
+    ("\n        Accessibilité du site par <a", "\n        Website accessibility by <a", "\n        웹 접근성: <a", "\n        网站无障碍：<a"),
+
     # --- Données structurées ---
     ('"name": "Carte"', '"name": "Menu"', '"name": "메뉴"', '"name": "菜单"'),
     ('"name": "Kimbap",', '"name": "Kimbap",', '"name": "김밥",', '"name": "紫菜卷",'),
