@@ -43,11 +43,10 @@
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 
-  <!-- Polices -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Polices hébergées sur le site (aucun appel à Google) -->
+  <link rel="preload" href="../assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/permanent-marker-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preconnect" href="https://commons.wikimedia.org">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Anton&family=Nunito:wght@400;600;700;800&family=Noto+Sans+KR:wght@500;700&family=Noto+Sans+SC:wght@500;700&display=swap">
 
   <!-- Données structurées : restaurant + menu -->
   <script type="application/ld+json">
@@ -116,6 +115,13 @@
   </script>
 
   <style>
+    /* Polices : Anton, Nunito (SIL OFL 1.1) et Permanent Marker (Apache 2.0) */
+    @font-face { font-family: 'Anton'; font-style: normal; font-weight: 400; font-display: swap; src: url(../assets/fonts/anton-latin-ext.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+    @font-face { font-family: 'Anton'; font-style: normal; font-weight: 400; font-display: swap; src: url(../assets/fonts/anton-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Nunito'; font-style: normal; font-weight: 400 800; font-display: swap; src: url(../assets/fonts/nunito-latin-ext.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+    @font-face { font-family: 'Nunito'; font-style: normal; font-weight: 400 800; font-display: swap; src: url(../assets/fonts/nunito-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Permanent Marker'; font-style: normal; font-weight: 400; font-display: swap; src: url(../assets/fonts/permanent-marker-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
     /* =========================================================
        Design tokens — couleurs tirées du flyer
        ========================================================= */
@@ -139,7 +145,7 @@
       --font-logo: "Permanent Marker", "Comic Sans MS", cursive;
       --font-title: "Anton", Impact, "Arial Narrow", sans-serif;
       --font-body: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
-      --font-ko: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      --font-ko: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", "Noto Sans CJK KR", sans-serif;
 
       --radius: 18px;
       --shadow: 0 10px 30px -12px rgba(43, 35, 32, .25);
@@ -729,7 +735,7 @@
     .hours tr.is-today { background: #fff4dc; }
     .hours tr.is-today th { font-weight: 800; }
     .today-flag { font-size: .8rem; color: var(--red-dark); font-weight: 800; }
-    .hours tr.is-closed td { color: var(--red); }
+    .hours tr.is-closed td { color: var(--red-dark); }
     .contact-list li { display: flex; gap: .8rem; align-items: flex-start; padding: .55rem 0; }
     .contact-list .ico {
       flex: 0 0 auto; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center;
@@ -768,6 +774,21 @@
     .site-footer p { margin: .25rem 0; }
     .credits { margin-top: 2rem; padding-top: 1.2rem; border-top: 1px solid rgba(255,255,255,.2); font-size: .85rem; color: #d9cfc6; }
     .made-by { font-size: .85rem; color: #d9cfc6; margin-top: .5rem !important; }
+    .legal { margin-top: 2rem; border-top: 1px solid rgba(255,255,255,.2); padding-top: 1rem; }
+    .legal summary {
+      cursor: pointer; font-weight: 800; display: inline-flex; align-items: center; gap: .5rem;
+      padding: .35rem 0; text-decoration: underline; text-underline-offset: 3px;
+    }
+    .legal summary::marker { color: var(--yellow); }
+    .legal__body { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem 3rem; margin-top: 1rem; font-size: .9rem; }
+    .legal h2 { font-family: var(--font-title); font-weight: 400; text-transform: uppercase; letter-spacing: .03em; font-size: 1.4rem; margin-bottom: .6rem; color: #fff; }
+    .legal dl { margin: 0; display: grid; grid-template-columns: minmax(0, auto) 1fr; gap: .35rem 1rem; }
+    .legal dt { font-weight: 700; color: #d9cfc6; }
+    .legal dd { margin: 0; }
+    .legal ul { list-style: disc; padding-left: 1.2rem; }
+    .legal li { margin-bottom: .4rem; }
+    .todo { background: var(--yellow); color: var(--ink) !important; padding: 0 .3em; border-radius: 4px; font-weight: 700; }
+    @media (max-width: 480px) { .legal dl { grid-template-columns: 1fr; } .legal dd { margin-bottom: .5rem; } }
     .made-by a { font-weight: 700; }
 
     /* Bouton d'appel flottant (mobile) */
@@ -820,8 +841,8 @@
     }
 
     /* Version zh : police adaptée à l'écriture */
-    :root { --font-body: "Nunito", "Noto Sans SC", system-ui, sans-serif; --font-title: "Anton", "Noto Sans SC", Impact, sans-serif; }
-    .section-title > span:first-child, .about h2, .info-card h3, .panel__label, .drinks__group h4 { font-family: "Noto Sans SC", var(--font-body); font-weight: 700; }
+    :root { --font-body: "Nunito", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Noto Sans CJK SC", system-ui, sans-serif; --font-title: "Anton", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Noto Sans CJK SC", Impact, sans-serif; }
+    .section-title > span:first-child, .about h2, .info-card h3, .panel__label, .drinks__group h4, .legal h2 { font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Noto Sans CJK SC", var(--font-body); font-weight: 700; }
     .section-title > span:first-child { -webkit-text-stroke: 0; text-shadow: 2px 2px 0 var(--ink); }
   </style>
 </head>
@@ -1591,6 +1612,45 @@
           <p>周日休息</p>
         </div>
       </div>
+      <!-- Mentions légales : remplacer les valeurs XXXX (surlignées) puis retirer la classe "todo" -->
+      <details class="legal" id="mentions-legales">
+        <summary>法律声明与隐私</summary>
+        <div class="legal__body">
+          <section aria-labelledby="legal-title">
+            <h2 id="legal-title">法律声明</h2>
+            <dl>
+              <dt>网站发布者</dt>
+              <dd><span class="todo">XXXX</span> – Yanji Korean Food<br><span lang="fr">63, avenue de la Gare, L-1611 Luxembourg</span></dd>
+              <dt>联系方式</dt>
+              <dd><a href="tel:+35228996111">+352 28 99 61 11</a> · <a class="todo" href="mailto:XXXX@XXXX.lu">XXXX@XXXX.lu</a></dd>
+              <dt>商业登记号 (RCS)</dt>
+              <dd><span class="todo">B XXXXXX</span></dd>
+              <dt>增值税号</dt>
+              <dd><span class="todo">LU XXXXXXXX</span></dd>
+              <dt>营业许可</dt>
+              <dd><span class="todo">XXXXXXXX</span></dd>
+              <dt>网站托管</dt>
+              <dd><span class="todo">XXXX</span></dd>
+              <dt>设计与开发</dt>
+              <dd><a href="https://geoffreycrofte.com">Crofte Studio</a></dd>
+            </dl>
+          </section>
+          <section aria-labelledby="privacy-title">
+            <h2 id="privacy-title">隐私</h2>
+            <ul>
+              <li>本网站不使用 Cookie，也不使用任何统计或广告工具。</li>
+              <li>本网站没有任何表单，我们不会通过它收集任何个人数据。</li>
+              <li>如果您暂停动画，该设置仅保存在您的浏览器中，不会被发送到任何地方。</li>
+              <li>字体托管在本网站上，不会向 Google Fonts 发送任何数据。</li>
+              <li>示意图片从 Wikimedia Commons 加载，因此其会获得您的 IP 地址。</li>
+              <li>“Google 地图导航”按钮会打开 Google 的服务，适用其自身的隐私政策。</li>
+              <li>我们的托管服务商可能会为保障网站安全而保留技术日志（IP 地址、日期、访问页面）。</li>
+              <li>如对您的数据有任何疑问，请通过上述邮箱联系我们。您也可以向卢森堡数据保护机构 <a href="https://cnpd.public.lu/" lang="fr">Commission nationale pour la protection des données (CNPD)</a> 投诉。</li>
+            </ul>
+          </section>
+        </div>
+      </details>
+
       <p class="credits">
         © <span id="year">2026</span> Yanji Korean Food. 示意图片来自
         <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons<span class="visually-hidden">（新窗口）</span></a> （CC BY / CC BY-SA 许可，作者见各文件）。
@@ -1930,6 +1990,14 @@
         petals.appendChild(p);
       }
     })();
+
+    /* ---------- Mentions légales : ouverture via l'ancre #mentions-legales ---------- */
+    var legal = document.getElementById('mentions-legales');
+    function openLegalFromHash() {
+      if (location.hash === '#mentions-legales') { legal.open = true; legal.scrollIntoView(); }
+    }
+    window.addEventListener('hashchange', openLegalFromHash);
+    openLegalFromHash();
 
     /* ---------- Année ---------- */
     $('#year').textContent = new Date().getFullYear();

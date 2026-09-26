@@ -1,0 +1,8 @@
+Polices hébergées localement (téléchargées depuis Google Fonts, sous-ensembles latin et latin-ext) :
+
+- Anton — Vernon Adams — SIL Open Font License 1.1 — https://fonts.google.com/specimen/Anton/license
+- Nunito — Vernon Adams, Cyreal, Jacques Le Bailly — SIL Open Font License 1.1 — https://fonts.google.com/specimen/Nunito/license
+- Permanent Marker — Font Diner — Apache License 2.0 — https://fonts.google.com/specimen/Permanent+Marker/license
+
+Coréen et chinois : polices système de l'appareil (Apple SD Gothic Neo, Malgun Gothic,
+PingFang SC, Microsoft YaHei, Noto Sans CJK…), rien n'est téléchargé.

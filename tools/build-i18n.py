@@ -20,8 +20,11 @@ SITE = "https://www.yanji.lu/"  # TODO : remplacer par le vrai domaine
 
 LANGS = {
     "en": {"html": "en", "og": "en_GB", "button": "EN", "label": "Language: ", "font": None},
-    "ko": {"html": "ko", "og": "ko_KR", "button": "한국어", "label": "언어: ", "font": "Noto Sans KR"},
-    "zh": {"html": "zh-Hans", "og": "zh_CN", "button": "中文", "label": "语言：", "font": "Noto Sans SC"},
+    # Polices système pour le coréen et le chinois (déjà présentes sur les appareils)
+    "ko": {"html": "ko", "og": "ko_KR", "button": "한국어", "label": "언어: ",
+           "font": '"Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", "Noto Sans CJK KR"'},
+    "zh": {"html": "zh-Hans", "og": "zh_CN", "button": "中文", "label": "语言：",
+           "font": '"PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Noto Sans CJK SC"'},
 }
 LANG_MENU = [  # (dossier, hreflang, nom affiché)
     ("", "fr", "Français"),
@@ -380,6 +383,53 @@ ROWS = [
     ("\n        Site web par <a", "\n        Website by <a", "\n        웹사이트 제작: <a", "\n        网站制作：<a"),
     ("\n        Accessibilité du site par <a", "\n        Website accessibility by <a", "\n        웹 접근성: <a", "\n        网站无障碍：<a"),
 
+    # --- Mentions légales & confidentialité ---
+    ("<summary>Mentions légales &amp; confidentialité</summary>", "<summary>Legal notice &amp; privacy</summary>",
+     "<summary>법적 고지 및 개인정보 보호</summary>", "<summary>法律声明与隐私</summary>"),
+    ('<h2 id="legal-title">Mentions légales</h2>', '<h2 id="legal-title">Legal notice</h2>',
+     '<h2 id="legal-title">법적 고지</h2>', '<h2 id="legal-title">法律声明</h2>'),
+    ("<dt>Éditeur du site</dt>", "<dt>Publisher</dt>", "<dt>운영자</dt>", "<dt>网站发布者</dt>"),
+    ("<dt>Contact</dt>", "<dt>Contact</dt>", "<dt>연락처</dt>", "<dt>联系方式</dt>"),
+    ("<dt>Registre de commerce (RCS)</dt>", "<dt>Trade register (RCS)</dt>", "<dt>상업등기 (RCS)</dt>", "<dt>商业登记号 (RCS)</dt>"),
+    ("<dt>Numéro de TVA</dt>", "<dt>VAT number</dt>", "<dt>부가가치세 번호</dt>", "<dt>增值税号</dt>"),
+    ("<dt>Autorisation d'établissement</dt>", "<dt>Business permit</dt>", "<dt>영업 허가 번호</dt>", "<dt>营业许可</dt>"),
+    ("<dt>Hébergement</dt>", "<dt>Hosting</dt>", "<dt>호스팅</dt>", "<dt>网站托管</dt>"),
+    ("<dt>Conception et réalisation</dt>", "<dt>Design and development</dt>", "<dt>디자인 및 개발</dt>", "<dt>设计与开发</dt>"),
+    ('<h2 id="privacy-title">Confidentialité</h2>', '<h2 id="privacy-title">Privacy</h2>',
+     '<h2 id="privacy-title">개인정보 보호</h2>', '<h2 id="privacy-title">隐私</h2>'),
+    ("<li>Ce site ne dépose aucun cookie et n'utilise aucun outil de statistiques ni de publicité.</li>",
+     "<li>This website sets no cookies and uses no analytics or advertising tools.</li>",
+     "<li>이 사이트는 쿠키를 사용하지 않으며, 통계 도구나 광고 도구도 사용하지 않습니다.</li>",
+     "<li>本网站不使用 Cookie，也不使用任何统计或广告工具。</li>"),
+    ("<li>Il ne contient aucun formulaire&nbsp;: nous ne collectons aucune donnée personnelle par son intermédiaire.</li>",
+     "<li>It contains no forms: we collect no personal data through it.</li>",
+     "<li>입력 양식이 없으므로 이 사이트를 통해 개인정보를 수집하지 않습니다.</li>",
+     "<li>本网站没有任何表单，我们不会通过它收集任何个人数据。</li>"),
+    ("<li>Si vous mettez les animations en pause, ce choix est enregistré uniquement dans votre navigateur et n'est jamais transmis.</li>",
+     "<li>If you pause the animations, this choice is stored only in your browser and is never sent anywhere.</li>",
+     "<li>애니메이션 일시정지 설정은 사용자의 브라우저에만 저장되며 외부로 전송되지 않습니다.</li>",
+     "<li>如果您暂停动画，该设置仅保存在您的浏览器中，不会被发送到任何地方。</li>"),
+    ("<li>Les polices de caractères sont hébergées sur ce site&nbsp;: aucune donnée n'est envoyée à Google Fonts.</li>",
+     "<li>Fonts are hosted on this website: no data is sent to Google Fonts.</li>",
+     "<li>글꼴은 이 사이트에서 직접 제공되므로 Google Fonts로 데이터가 전송되지 않습니다.</li>",
+     "<li>字体托管在本网站上，不会向 Google Fonts 发送任何数据。</li>"),
+    ("<li>Les photos d'illustration sont chargées depuis Wikimedia Commons, qui reçoit alors votre adresse IP.</li>",
+     "<li>Illustrative photos are loaded from Wikimedia Commons, which therefore receives your IP address.</li>",
+     "<li>참고용 사진은 Wikimedia Commons에서 불러오며, 이때 사용자의 IP 주소가 전달됩니다.</li>",
+     "<li>示意图片从 Wikimedia Commons 加载，因此其会获得您的 IP 地址。</li>"),
+    ("<li>Le bouton «&nbsp;Itinéraire Google Maps&nbsp;» ouvre un service de Google, soumis à sa propre politique de confidentialité.</li>",
+     "<li>The “Directions on Google Maps” button opens a Google service, subject to its own privacy policy.</li>",
+     "<li>“Google 지도 길찾기” 버튼은 Google 서비스를 열며, 해당 서비스의 개인정보 처리방침이 적용됩니다.</li>",
+     "<li>“Google 地图导航”按钮会打开 Google 的服务，适用其自身的隐私政策。</li>"),
+    ("<li>Notre hébergeur peut conserver des journaux techniques (adresse IP, date, page consultée) pour assurer la sécurité du site.</li>",
+     "<li>Our hosting provider may keep technical logs (IP address, date, page visited) to keep the website secure.</li>",
+     "<li>호스팅 업체는 사이트 보안을 위해 기술 로그(IP 주소, 날짜, 방문 페이지)를 보관할 수 있습니다.</li>",
+     "<li>我们的托管服务商可能会为保障网站安全而保留技术日志（IP 地址、日期、访问页面）。</li>"),
+    ("<li>Pour toute question sur vos données, écrivez-nous à l'adresse indiquée ci-dessus. Vous pouvez aussi adresser une réclamation à la <a href=\"https://cnpd.public.lu/\">Commission nationale pour la protection des données (CNPD)</a>.</li>",
+     "<li>For any question about your data, write to us at the address above. You can also file a complaint with the <a href=\"https://cnpd.public.lu/\" lang=\"fr\">Commission nationale pour la protection des données (CNPD)</a>, Luxembourg’s data protection authority.</li>",
+     "<li>개인정보 관련 문의는 위 이메일로 보내 주세요. 룩셈부르크 개인정보 보호 기관인 <a href=\"https://cnpd.public.lu/\" lang=\"fr\">Commission nationale pour la protection des données (CNPD)</a>에 민원을 제기할 수도 있습니다.</li>",
+     "<li>如对您的数据有任何疑问，请通过上述邮箱联系我们。您也可以向卢森堡数据保护机构 <a href=\"https://cnpd.public.lu/\" lang=\"fr\">Commission nationale pour la protection des données (CNPD)</a> 投诉。</li>"),
+
     # --- Données structurées ---
     ('"name": "Carte"', '"name": "Menu"', '"name": "메뉴"', '"name": "菜单"'),
     ('"name": "Kimbap",', '"name": "Kimbap",', '"name": "김밥",', '"name": "紫菜卷",'),
@@ -546,7 +596,7 @@ def build(code):
     html = replace_once(html, '<meta property="og:locale" content="fr_FR">', f'<meta property="og:locale" content="{cfg["og"]}">', "og:locale")
     html = replace_once(html, '"inLanguage": "fr"', f'"inLanguage": "{cfg["html"]}"', "inLanguage")
     html = replace_once(html, '"url": "https://www.yanji.lu/"', f'"url": "{url}"', "json url")
-    html = html.replace('href="assets/', 'href="../assets/')
+    html = html.replace('href="assets/', 'href="../assets/').replace("url(assets/", "url(../assets/")
     html = re.sub(r"<!-- i18n:langs -->.*?<!-- /i18n:langs -->", lambda m: lang_menu(code, "../"), html, flags=re.S)
     html = replace_once(html, '<span class="visually-hidden">Langue : </span>FR',
                         f'<span class="visually-hidden">{cfg["label"]}</span>{cfg["button"]}', "bouton langue")
@@ -559,16 +609,14 @@ def build(code):
     html = re.sub(r"(\d+)(?:,(\d+))?&nbsp;€", lambda m: "€" + m.group(1) + ("." + m.group(2) if m.group(2) else ""), html)
     html = html.replace("11h00", "11:00").replace("17h30", "17:30")
 
-    # 5. Police coréenne / chinoise
+    # 5. Police coréenne / chinoise (polices système, rien à télécharger)
     if cfg["font"]:
-        family = cfg["font"].replace(" ", "+")
-        if f"family={family}:" not in html:
-            html = html.replace("&display=swap\">", f"&family={family}:wght@500;700&display=swap\">", 1)
+        f = cfg["font"]
         html = replace_once(html, "  </style>\n</head>",
                             "\n    /* Version " + code + " : police adaptée à l'écriture */\n"
-                            f"    :root {{ --font-body: \"Nunito\", \"{cfg['font']}\", system-ui, sans-serif; --font-title: \"Anton\", \"{cfg['font']}\", Impact, sans-serif; }}\n"
-                            + (f"    body {{ word-break: keep-all; }}\n" if code == "ko" else "")
-                            + f"    .section-title > span:first-child, .about h2, .info-card h3, .panel__label, .drinks__group h4 {{ font-family: \"{cfg['font']}\", var(--font-body); font-weight: 700; }}\n"
+                            f"    :root {{ --font-body: \"Nunito\", {f}, system-ui, sans-serif; --font-title: \"Anton\", {f}, Impact, sans-serif; }}\n"
+                            + ("    body { word-break: keep-all; }\n" if code == "ko" else "")
+                            + f"    .section-title > span:first-child, .about h2, .info-card h3, .panel__label, .drinks__group h4, .legal h2 {{ font-family: {f}, var(--font-body); font-weight: 700; }}\n"
                             + "    .section-title > span:first-child { -webkit-text-stroke: 0; text-shadow: 2px 2px 0 var(--ink); }\n"
                             "  </style>\n</head>", "police")
 
