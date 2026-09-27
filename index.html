@@ -183,6 +183,8 @@
     .skip-link:focus { top: 1rem; }
     :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; border-radius: 6px; }
     .howto :focus-visible, .info :focus-visible, .site-footer :focus-visible, .marquee :focus-visible { outline-color: #fff; }
+    /* Cartes blanches de la section Infos : contour sombre, sinon invisible */
+    .info .info-card :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
     .container { width: min(1180px, 100% - 32px); margin-inline: auto; }
 
