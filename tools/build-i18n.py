@@ -363,6 +363,21 @@ ROWS = [
      '<p class="nurungji-tip__hint">8번, 9번 돌솥비빔밥에서 맛보세요.</p>',
      '<p class="nurungji-tip__hint">欢迎品尝我们的石锅拌饭（8 号和 9 号）。</p>'),
 
+    # --- Modale avant appel ---
+    ('<h2 id="call-dialog-title">Avant d\'appeler</h2>', '<h2 id="call-dialog-title">Before you call</h2>',
+     '<h2 id="call-dialog-title">전화하기 전에</h2>', '<h2 id="call-dialog-title">致电前请注意</h2>'),
+    ('<p id="call-dialog-text">Nous parlons uniquement anglais, coréen et un peu de français. Merci d\'en tenir compte avant d\'appeler&nbsp;!</p>',
+     '<p id="call-dialog-text">We only speak English, Korean and a little French. Please keep this in mind before calling. Thank you!</p>',
+     '<p id="call-dialog-text">저희는 영어, 한국어, 그리고 약간의 프랑스어만 가능합니다. 전화 주시기 전에 참고해 주세요. 감사합니다!</p>',
+     '<p id="call-dialog-text">我们只会说英语、韩语和一点法语。致电前请留意，谢谢！</p>'),
+    ('aria-label="Langues parlées"', 'aria-label="Languages spoken"', 'aria-label="가능한 언어"', 'aria-label="可使用的语言"'),
+    ('</span> <small>(un peu)</small>', '</span> <small>(a little)</small>', '</span> <small>(조금)</small>', '</span> <small>（一点）</small>'),
+    ('<span>Appeler le <span class="tel-num">+352 28 99 61 11</span></span>',
+     '<span>Call <span class="tel-num">+352 28 99 61 11</span></span>',
+     '<span><span class="tel-num">+352 28 99 61 11</span>로 전화하기</span>',
+     '<span>拨打 <span class="tel-num">+352 28 99 61 11</span></span>'),
+    ('id="call-dialog-cancel">Annuler</button>', 'id="call-dialog-cancel">Cancel</button>', 'id="call-dialog-cancel">취소</button>', 'id="call-dialog-cancel">取消</button>'),
+
     # --- Horaires & accès ---
     ("</span> Horaires</h3>", "</span> Opening hours</h3>", "</span> 영업시간</h3>", "</span> 营业时间</h3>"),
     ("Horaires d'ouverture", "Opening hours", "영업시간", "营业时间"),

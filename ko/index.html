@@ -878,6 +878,24 @@
     .fab-call svg { width: 26px; height: 26px; }
     @keyframes ring { 0%, 90%, 100% { transform: rotate(0); } 92% { transform: rotate(-14deg); } 94% { transform: rotate(14deg); } 96% { transform: rotate(-10deg); } 98% { transform: rotate(8deg); } }
 
+    /* ---------- Modale avant appel ---------- */
+    .call-dialog {
+      width: min(440px, calc(100% - 32px)); padding: 0; border: 3px solid var(--ink); border-radius: var(--radius);
+      background: var(--cream); color: var(--ink); box-shadow: 8px 8px 0 var(--ink);
+    }
+    .call-dialog[open] { animation: dialog-in .3s var(--ease-bounce); }
+    .call-dialog::backdrop { background: rgba(43, 35, 32, .6); }
+    .call-dialog__inner { padding: 1.6rem 1.5rem 1.4rem; text-align: center; }
+    .call-dialog__icon { font-size: 2.2rem; line-height: 1; margin: 0 0 .4rem; }
+    .call-dialog h2 { font-family: var(--font-title); font-weight: 400; text-transform: uppercase; letter-spacing: .02em; font-size: 1.7rem; margin-bottom: .6rem; }
+    .call-dialog p { margin-bottom: 1rem; }
+    .call-dialog__langs { display: flex; flex-wrap: wrap; justify-content: center; gap: .4rem; margin-bottom: 1.3rem; }
+    .call-dialog__langs li { font-weight: 800; font-size: .9rem; padding: .25rem .75rem; border-radius: 999px; background: var(--paper); border: 2px solid var(--ink); }
+    .call-dialog__langs small { font-weight: 600; color: var(--ink-soft); }
+    .tel-num { white-space: nowrap; }
+    .call-dialog__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .7rem; }
+    @keyframes dialog-in { from { opacity: 0; transform: translateY(12px) scale(.96); } }
+
     /* ---------- Révélation au scroll ---------- */
     .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s var(--ease-bounce); }
     .reveal.is-visible { opacity: 1; transform: none; }
@@ -1770,6 +1788,27 @@
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>
   </a>
 
+  <!-- Modale avant appel : langues parlées au restaurant -->
+  <dialog class="call-dialog" id="call-dialog" aria-labelledby="call-dialog-title" aria-describedby="call-dialog-text">
+    <div class="call-dialog__inner">
+      <p class="call-dialog__icon" aria-hidden="true">📞</p>
+      <h2 id="call-dialog-title">전화하기 전에</h2>
+      <p id="call-dialog-text">저희는 영어, 한국어, 그리고 약간의 프랑스어만 가능합니다. 전화 주시기 전에 참고해 주세요. 감사합니다!</p>
+      <ul class="call-dialog__langs" aria-label="가능한 언어">
+        <li lang="en">English</li>
+        <li lang="ko">한국어</li>
+        <li><span lang="fr">Français</span> <small>(조금)</small></li>
+      </ul>
+      <div class="call-dialog__actions">
+        <a class="btn btn--red" href="tel:+35228996111" id="call-dialog-confirm">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>
+          <span><span class="tel-num">+352 28 99 61 11</span>로 전화하기</span>
+        </a>
+        <button class="btn" type="button" id="call-dialog-cancel">취소</button>
+      </div>
+    </div>
+  </dialog>
+
   <script>
   (function () {
     'use strict';
@@ -2155,6 +2194,35 @@
     document.addEventListener('click', function (e) {
       if (!nuruTip.hidden && !stage.contains(e.target)) setNurungji(false);
     });
+
+    /* ---------- Modale avant appel ----------
+       Tous les liens tel: passent d'abord par la modale (sauf celui de la modale).
+       Sans <dialog> natif ni JS, les liens appellent directement. */
+    var callDialog = $('#call-dialog');
+    var callInvoker = null;
+    if (callDialog && typeof callDialog.showModal === 'function') {
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest && e.target.closest('a[href^="tel:"]');
+        if (!a || callDialog.contains(a)) return;
+        e.preventDefault();
+        callInvoker = a;
+        callDialog.showModal();
+        $('#call-dialog-confirm').focus();
+      });
+      $('#call-dialog-cancel').addEventListener('click', function () { callDialog.close(); });
+      $('#call-dialog-confirm').addEventListener('click', function () {
+        // laisse partir l'appel, puis ferme la modale
+        setTimeout(function () { callDialog.close(); }, 300);
+      });
+      // clic sur le fond sombre = fermer
+      callDialog.addEventListener('click', function (e) { if (e.target === callDialog) callDialog.close(); });
+      callDialog.addEventListener('close', function () {
+        // différé : le navigateur restaure lui-même un focus à la fermeture
+        var el = callInvoker;
+        callInvoker = null;
+        setTimeout(function () { if (el && document.contains(el)) el.focus(); }, 0);
+      });
+    }
 
     /* ---------- Pétales d'hibiscus ---------- */
     (function () {
