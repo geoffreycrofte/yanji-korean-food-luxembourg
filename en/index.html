@@ -202,9 +202,9 @@
     /* ---------- Header ---------- */
     .site-header {
       position: sticky; top: 0; z-index: 50;
-      background: rgba(255, 250, 242, .92);
-      backdrop-filter: saturate(1.4) blur(10px);
-      -webkit-backdrop-filter: saturate(1.4) blur(10px);
+      /* Fond opaque, sans backdrop-filter : sur un élément sticky, le flou
+         provoque des clignotements dans Chrome macOS pendant le défilement */
+      background: var(--cream);
       transition: box-shadow .3s ease;
     }
     .site-header.is-scrolled { box-shadow: 0 6px 20px -12px rgba(43, 35, 32, .35); }
@@ -491,7 +491,7 @@
     .menu { background: var(--paper); }
     .menu-toolbar {
       position: sticky; top: calc(var(--header-h) - 1px); z-index: 20;
-      background: rgba(255, 255, 255, .95); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      background: var(--paper);
       border-bottom: 2px solid var(--line);
       margin-bottom: 2rem;
     }
