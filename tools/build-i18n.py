@@ -348,6 +348,21 @@ ROWS = [
     ("▶ Voir la démo", "▶ Watch the demo", "▶ 시연 보기", "▶ 观看演示"),
     (">Choisir mon bibimbap</a>", ">Choose my bibimbap</a>", ">비빔밥 고르기</a>", ">选择我的石锅拌饭</a>"),
 
+    # --- Easter egg : nurungji ---
+    ("</span>Le saviez-vous&nbsp;?</span>", "</span>Did you know?</span>", "</span>알고 계셨나요?</span>", "</span>你知道吗？</span>"),
+    ('<p class="nurungji-tip__title"><span lang="ko">누룽지</span> · Nurungji</p>',
+     '<p class="nurungji-tip__title"><span lang="ko">누룽지</span> · Nurungji</p>',
+     '<p class="nurungji-tip__title">누룽지 · <span lang="ko-Latn">Nurungji</span></p>',
+     '<p class="nurungji-tip__title"><span lang="ko">누룽지</span> · 锅巴</p>'),
+    ("<p>Dans le bol en pierre brûlant, le riz du fond dore et devient croustillant. En Corée, c'est souvent la partie préférée&nbsp;: on la gratte à la cuillère jusqu'à la dernière bouchée&nbsp;!</p>",
+     "<p>In the sizzling stone bowl, the rice at the bottom turns golden and crispy. In Korea it’s often the favourite part: people scrape it up with their spoon down to the very last bite!</p>",
+     "<p>뜨거운 돌솥 바닥의 밥은 노릇노릇하고 바삭하게 눌어붙어요. 한국에서는 이 누룽지를 제일 좋아하는 사람이 많아요. 마지막 한 숟가락까지 싹싹 긁어 드세요!</p>",
+     "<p>在滚烫的石锅里，锅底的米饭会变得金黄酥脆。在韩国，这常常是最受欢迎的部分：大家会用勺子一直刮到最后一口！</p>"),
+    ('<p class="nurungji-tip__hint">À goûter avec nos bibimbaps en pot de pierre, n°8 et n°9.</p>',
+     '<p class="nurungji-tip__hint">Try it with our stone-pot bibimbaps, no. 8 and no. 9.</p>',
+     '<p class="nurungji-tip__hint">8번, 9번 돌솥비빔밥에서 맛보세요.</p>',
+     '<p class="nurungji-tip__hint">欢迎品尝我们的石锅拌饭（8 号和 9 号）。</p>'),
+
     # --- Horaires & accès ---
     ("</span> Horaires</h3>", "</span> Opening hours</h3>", "</span> 영업시간</h3>", "</span> 营业时间</h3>"),
     ("Horaires d'ouverture", "Opening hours", "영업시간", "营业时间"),
