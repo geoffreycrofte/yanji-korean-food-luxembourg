@@ -1,21 +1,24 @@
 #!/usr/bin/env python3
 """
-Génère les versions traduites du site à partir de la page française.
+Assemble les pages du site à partir des sources et génère les traductions.
 
-    python3 tools/build-i18n.py
+    npm run build          (ce script, puis la minification : tools/minify.mjs)
+    python3 tools/build-i18n.py   (ce script seul, sans minifier)
 
-Source unique : index.html (français). Le script produit en/index.html,
-ko/index.html et zh/index.html en remplaçant chaque fragment français par sa
-traduction. Si un fragment n'est plus trouvé (parce que le texte français a
-changé), le script s'arrête et indique lequel : il suffit alors de mettre à
-jour la ligne correspondante ci-dessous.
+Sources : src/index.html (français), src/styles.css et src/main.js, insérés
+dans la page à la place de leurs balises <link data-inline> / <script data-inline>.
+Le script écrit index.html (français), en/, ko/ et zh/, plus un manifeste PWA
+par langue. Chaque fragment français est remplacé par sa traduction ; si un
+fragment n'est plus trouvé (texte source modifié), le script s'arrête et
+indique lequel : il suffit de mettre à jour la ligne correspondante ci-dessous.
 """
+import json
 import re
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SOURCE = ROOT / "index.html"
+SRC = ROOT / "src"
 SITE = "https://yanji.lu/"  # TODO : remplacer par le vrai domaine
 
 LANGS = {
@@ -171,8 +174,8 @@ ROWS = [
 
     # --- En-tête ---
     ("Aller au contenu", "Skip to content", "본문 바로가기", "跳到主要内容"),
-    ('aria-label="Yanji Korean Food – accueil"', 'aria-label="Yanji Korean Food – home"',
-     'aria-label="Yanji Korean Food – 홈"', 'aria-label="Yanji Korean Food – 首页"'),
+    ('<span class="visually-hidden"> Korean Food – accueil</span>', '<span class="visually-hidden"> Korean Food – home</span>',
+     '<span class="visually-hidden"> Korean Food – 홈</span>', '<span class="visually-hidden"> Korean Food – 首页</span>'),
     ('aria-label="Navigation principale"', 'aria-label="Main navigation"', 'aria-label="주 메뉴"', 'aria-label="主导航"'),
     ('<li><a href="#menu">La carte</a></li>', '<li><a href="#menu">Menu</a></li>',
      '<li><a href="#menu">메뉴</a></li>', '<li><a href="#menu">菜单</a></li>'),
@@ -378,6 +381,25 @@ ROWS = [
      '<span>拨打 <span class="tel-num">+352 28 99 61 11</span></span>'),
     ('id="call-dialog-cancel">Annuler</button>', 'id="call-dialog-cancel">Cancel</button>', 'id="call-dialog-cancel">취소</button>', 'id="call-dialog-cancel">取消</button>'),
 
+    # --- PWA : bannière d'installation ---
+    ('<p class="install-banner__title" id="install-title">La carte Yanji dans votre poche&nbsp;?</p>',
+     '<p class="install-banner__title" id="install-title">Yanji’s menu in your pocket?</p>',
+     '<p class="install-banner__title" id="install-title">Yanji 메뉴를 휴대폰에 담아 가세요</p>',
+     '<p class="install-banner__title" id="install-title">把 Yanji 的菜单装进口袋？</p>'),
+    ("<p data-install=\"prompt\">Installez notre app&nbsp;: la carte, les horaires et l'accès restent disponibles, même sans connexion.</p>",
+     '<p data-install="prompt">Install our app: the menu, opening hours and directions stay available, even offline.</p>',
+     '<p data-install="prompt">앱을 설치하면 메뉴, 영업시간, 오시는 길을 오프라인에서도 볼 수 있어요.</p>',
+     '<p data-install="prompt">安装我们的应用：菜单、营业时间和地址随时可查，离线也能用。</p>'),
+    ("<span>Sur iPhone&nbsp;: touchez</span>", "<span>On iPhone: tap</span>", "<span>iPhone에서</span>", "<span>在 iPhone 上：点按</span>"),
+    ("<span>«&nbsp;Partager&nbsp;», puis «&nbsp;Sur l'écran d'accueil&nbsp;».</span>",
+     "<span>“Share”, then “Add to Home Screen”.</span>",
+     "<span>“공유”를 누른 뒤 “홈 화면에 추가”를 선택하세요.</span>",
+     "<span>“分享”，然后选择“添加到主屏幕”。</span>"),
+    ('id="install-accept" data-install="prompt">Installer</button>', 'id="install-accept" data-install="prompt">Install</button>',
+     'id="install-accept" data-install="prompt">설치하기</button>', 'id="install-accept" data-install="prompt">安装</button>'),
+    ('id="install-dismiss">Plus tard</button>', 'id="install-dismiss">Not now</button>',
+     'id="install-dismiss">나중에</button>', 'id="install-dismiss">以后再说</button>'),
+
     # --- Horaires & accès ---
     ("</span> Horaires</h3>", "</span> Opening hours</h3>", "</span> 영업시간</h3>", "</span> 营业时间</h3>"),
     ("Horaires d'ouverture", "Opening hours", "영업시간", "营业时间"),
@@ -499,7 +521,9 @@ JS_T = {
       spicy: 'spicy',
       contains: 'contains: ',
       count: function (n) { return n + (n > 1 ? ' dishes match' : ' dish matches'); },
-      replay: '↺ Replay the demo'
+      replay: '↺ Replay the demo',
+      updateMsg: 'A new version of the website is available.',
+      updateBtn: 'Update'
     };""",
     "ko": """    var T = {
       openMenu: '메뉴 열기',
@@ -515,7 +539,9 @@ JS_T = {
       spicy: '매움',
       contains: '포함: ',
       count: function (n) { return '해당 메뉴 ' + n + '개'; },
-      replay: '↺ 다시 보기'
+      replay: '↺ 다시 보기',
+      updateMsg: '사이트의 새 버전이 있습니다.',
+      updateBtn: '업데이트'
     };""",
     "zh": """    var T = {
       openMenu: '打开菜单',
@@ -531,7 +557,9 @@ JS_T = {
       spicy: '辣',
       contains: '含有：',
       count: function (n) { return '共 ' + n + ' 道菜符合'; },
-      replay: '↺ 重新播放'
+      replay: '↺ 重新播放',
+      updateMsg: '网站有新版本可用。',
+      updateBtn: '更新'
     };""",
 }
 
@@ -601,9 +629,67 @@ def replace_once(html, old, new, what):
     return html.replace(old, new)
 
 
+def indent(text, prefix="    "):
+    return "\n".join(prefix + line if line.strip() else "" for line in text.rstrip("\n").split("\n"))
+
+
+def assemble():
+    """Page française complète : CSS et JS insérés dans le HTML."""
+    html = (SRC / "index.html").read_text(encoding="utf-8")
+    css = (SRC / "styles.css").read_text(encoding="utf-8")
+    js = (SRC / "main.js").read_text(encoding="utf-8")
+    html = replace_once(html, '  <link rel="stylesheet" href="styles.css" data-inline>',
+                        "  <style>\n" + indent(css) + "\n  </style>", "styles.css")
+    html = replace_once(html, '  <script src="main.js" data-inline></script>',
+                        "  <script>\n" + indent(js, "  ") + "\n  </script>", "main.js")
+    return html
+
+
+# Manifeste PWA (un par langue)
+MANIFEST_TEXT = {
+    "fr": "Restaurant coréen à Luxembourg-Gare : la carte, les horaires et l'accès, même hors connexion.",
+    "en": "Korean restaurant near Luxembourg station: menu, opening hours and directions, even offline.",
+    "ko": "룩셈부르크 역 근처 한식당: 메뉴, 영업시간, 오시는 길을 오프라인에서도 확인하세요.",
+    "zh": "卢森堡火车站附近的韩国餐厅：菜单、营业时间和地址，离线也能查看。",
+}
+
+
+def write_manifest(code):
+    sub = code != "fr"
+    prefix = "../" if sub else ""
+    manifest = {
+        "id": "./",
+        "name": "Yanji Korean Food",
+        "short_name": "Yanji",
+        "description": MANIFEST_TEXT[code],
+        "lang": LANGS[code]["html"] if sub else "fr",
+        "dir": "ltr",
+        "start_url": "./",
+        "scope": prefix or "./",
+        "display": "standalone",
+        "background_color": "#fffaf2",
+        "theme_color": "#d13a4a",
+        "categories": ["food", "lifestyle"],
+        "icons": [
+            {"src": prefix + "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png"},
+            {"src": prefix + "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png"},
+            {"src": prefix + "assets/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"},
+        ],
+    }
+    out = ROOT / (code if sub else "") / "manifest.webmanifest"
+    out.parent.mkdir(exist_ok=True)
+    out.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def build_fr():
+    (ROOT / "index.html").write_text(assemble(), encoding="utf-8")
+    write_manifest("fr")
+    print("[i18n] index.html (fr) généré")
+
+
 def build(code):
     cfg = LANGS[code]
-    html = SOURCE.read_text(encoding="utf-8")
+    html = assemble()
     missing = []
 
     # 1. Textes (fragments les plus longs d'abord)
@@ -622,7 +708,7 @@ def build(code):
 
     # 3. Langue, URL, chemins
     url = f"{SITE}{code}/"
-    html = replace_once(html, '<html lang="fr">', f'<html lang="{cfg["html"]}">', "html lang")
+    html = replace_once(html, '<html lang="fr" data-root="./">', f'<html lang="{cfg["html"]}" data-root="../">', "html lang")
     html = replace_once(html, f'<link rel="canonical" href="{SITE}">', f'<link rel="canonical" href="{url}">', "canonical")
     html = replace_once(html, f'<meta property="og:url" content="{SITE}">', f'<meta property="og:url" content="{url}">', "og:url")
     html = replace_once(html, '<meta property="og:locale" content="fr_FR">', f'<meta property="og:locale" content="{cfg["og"]}">', "og:locale")
@@ -655,9 +741,11 @@ def build(code):
     out = ROOT / code / "index.html"
     out.parent.mkdir(exist_ok=True)
     out.write_text(html, encoding="utf-8")
+    write_manifest(code)
     print(f"[i18n] {code}/index.html généré")
 
 
 if __name__ == "__main__":
+    build_fr()
     for code in LANGS:
         build(code)

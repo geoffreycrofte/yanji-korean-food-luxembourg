@@ -1,0 +1,14 @@
+{
+  "name": "yanji-korean-food-luxembourg",
+  "private": true,
+  "description": "Site one-page de Yanji Korean Food (Luxembourg) : sources dans src/, pages générées et minifiées à la racine.",
+  "type": "module",
+  "scripts": {
+    "build": "python3 tools/build-i18n.py && node tools/minify.mjs",
+    "build:dev": "python3 tools/build-i18n.py"
+  },
+  "devDependencies": {
+    "html-minifier-terser": "^7.2.0",
+    "terser": "^5.31.0"
+  }
+}
