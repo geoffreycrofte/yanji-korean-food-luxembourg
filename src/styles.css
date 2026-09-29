@@ -163,14 +163,14 @@ ul { margin: 0; padding: 0; list-style: none; }
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
   padding: .8rem 1.35rem; border-radius: 999px; font-weight: 800; text-decoration: none;
-  border: 2.5px solid var(--ink); background: var(--paper);
+  border: 2.5px solid var(--ink); background: var(--paper); color: var(--ink);
   box-shadow: 4px 4px 0 var(--ink);
   transition: transform .15s ease, box-shadow .15s ease, background .2s;
 }
 .btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
 .btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
 .btn--red { background: var(--red); color: #fff; }
-.btn--yellow { background: var(--yellow); }
+.btn--yellow { background: var(--yellow); color: var(--ink); }
 .btn--small { padding: .45rem .9rem; font-size: .9rem; box-shadow: 3px 3px 0 var(--ink); }
 .site-header .btn--small { height: var(--ctrl-h); padding-block: 0; }
 .btn svg { width: 1.1em; height: 1.1em; }
@@ -605,7 +605,6 @@ details[open] > summary .chevron { transform: rotate(180deg); }
 .step strong { display: block; font-size: 1.15rem; }
 .step span { font-size: .95rem; }
 .howto__actions { display: flex; gap: .8rem; margin-top: 1.5rem; flex-wrap: wrap; }
-.howto__actions .btn { color: var(--ink); }
 
 .bowl-stage { position: relative; display: grid; place-items: center; }
 /* Ordinateur : de la place sous le bol pour la bulle du nurungji */
