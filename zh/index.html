@@ -46,6 +46,7 @@
   <!-- Polices hébergées sur le site (aucun appel à Google) -->
   <link rel="preload" href="../assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../assets/fonts/permanent-marker-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/anton-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preconnect" href="https://commons.wikimedia.org">
 
   <!-- Données structurées : restaurant + menu -->
@@ -1862,7 +1863,6 @@
     var header = $('.site-header');
     var onScroll = function () { header.classList.toggle('is-scrolled', window.scrollY > 10); };
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
 
     /* ---------- Menu mobile ---------- */
     var toggle = $('.nav-toggle');
@@ -2112,7 +2112,6 @@
     });
 
     window.addEventListener('scroll', onSpyScroll, { passive: true });
-    onSpyScroll();
 
     /* ---------- Cœurs coréens (finger heart) ---------- */
     var heartPanel = $('#heart-panel');
@@ -2257,6 +2256,14 @@
     }
     window.addEventListener('hashchange', openLegalFromHash);
     openLegalFromHash();
+
+    /* ---------- État initial dépendant du scroll ----------
+       Différé après le chargement : lire scrollY / getBoundingClientRect pendant
+       l'exécution du script forcerait un calcul de mise en page anticipé
+       (« forced reflow »). Utile seulement si la page s'ouvre déjà scrollée. */
+    window.addEventListener('load', function () {
+      requestAnimationFrame(function () { onScroll(); onSpyScroll(); });
+    });
 
     /* ---------- Année ---------- */
     $('#year').textContent = new Date().getFullYear();
