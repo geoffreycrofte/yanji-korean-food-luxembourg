@@ -17,6 +17,9 @@ import re
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import i18n_de_lb as DE_LB  # traductions allemandes et luxembourgeoises
+
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "src"
 SITE = "https://yanji.lu/"  # TODO : remplacer par le vrai domaine
@@ -28,9 +31,14 @@ LANGS = {
            "font": '"Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", "Noto Sans CJK KR"'},
     "zh": {"html": "zh-Hans", "og": "zh_CN", "button": "中文", "label": "语言：",
            "font": '"PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Noto Sans CJK SC"'},
+    # Allemand et luxembourgeois : textes dans tools/i18n_de_lb.py, prix au format européen
+    "de": {"html": "de", "og": "de_DE", "button": "DE", "label": "Sprache: ", "font": None},
+    "lb": {"html": "lb", "og": "lb_LU", "button": "LB", "label": "Sprooch: ", "font": None},
 }
 LANG_MENU = [  # (dossier, hreflang, nom affiché)
     ("", "fr", "Français"),
+    ("lb/", "lb", "Lëtzebuergesch"),
+    ("de/", "de", "Deutsch"),
     ("en/", "en", "English"),
     ("ko/", "ko", "한국어"),
     ("zh/", "zh-Hans", "中文"),
@@ -563,6 +571,8 @@ JS_T = {
     };""",
 }
 
+JS_T.update(DE_LB.JS_T)
+
 IDX = {"en": 1, "ko": 2, "zh": 3}
 
 
@@ -612,6 +622,60 @@ def build_rows():
     return rows
 
 
+def rows_for(code):
+    """Paires (fragment français, traduction) pour une langue."""
+    if code in IDX:
+        return [(r[0], r[IDX[code]]) for r in build_rows()]
+    i = 0 if code == "de" else 1
+    rows, missing = [], []
+
+    def tr(table, key):
+        if key not in table:
+            missing.append(key)
+            return None
+        return table[key][i] if not isinstance(table[key], str) else table[key]
+
+    for fr, en, _ko, _zh in ROWS:
+        t = tr(DE_LB.ROWS, en)
+        if t is not None:
+            rows.append((fr, t))
+    for fr, en, ko, _zh in DISHES:
+        t = tr(DE_LB.DISHES, en)
+        if t is None:
+            continue
+        fr_html, sub = fr.replace("&", "&amp;"), KO_SUBTITLE.get(fr, ko)
+        rows.append((f'{fr_html}<span class="dish__ko" lang="ko">{sub}</span>',
+                     f'{t.replace("&", "&amp;")}<span class="dish__ko" lang="ko">{sub}</span>'))
+        rows.append((f'"name": "{fr}"', f'"name": "{t}"'))
+    for fr, en, _ko, _zh in DESCRIPTIONS:
+        t = tr(DE_LB.DESCRIPTIONS, en)
+        if t is not None:
+            rows.append((f">{fr}.</p>", f">{t}.</p>"))
+            rows.append((f'"description": "{fr}', f'"description": "{t}'))
+    spicy = '<span aria-hidden="true">🌶️</span><span class="visually-hidden">({})</span>'
+    for fr, fr_small, ko, en, _en_small, _zh, _zh_small in SIDES:
+        if en not in DE_LB.SIDES:
+            missing.append(en)
+            continue
+        name, small = DE_LB.SIDES[en][2 * i], DE_LB.SIDES[en][2 * i + 1]
+        rows.append((
+            f'<span class="side__name">{fr} {spicy.format("épicé")}<small>{fr_small}</small><span class="dish__ko" lang="ko">{ko}</span></span>',
+            f'<span class="side__name">{name} {spicy.format(DE_LB.SPICY[i])}<small>{small}</small><span class="dish__ko" lang="ko">{ko}</span></span>'))
+    for fr, ko, en, _zh in JUICES:
+        t = tr(DE_LB.JUICES, en)
+        if t is not None:
+            rows.append((f'{fr}<small lang="ko">{ko}</small>', f'{t}<small lang="ko">{ko}</small>'))
+    for fr, deco, en, _ko, _zh in SECTION_TITLES:
+        t = tr(DE_LB.SECTION_TITLES, en)
+        if t is not None:
+            rows.append((f'<span>{fr}</span><span lang="ko" aria-hidden="true">{deco}</span>',
+                         f'<span>{t}</span><span lang="ko" aria-hidden="true">{deco}</span>'))
+    if missing:
+        sys.exit(f"[i18n] Traductions {code} manquantes dans tools/i18n_de_lb.py (clé anglaise) :\n  - "
+                 + "\n  - ".join(m[:110] for m in missing))
+    return rows
+
+
 def lang_menu(current, prefix):
     items = []
     for folder, hreflang, name in LANG_MENU:
@@ -651,6 +715,7 @@ MANIFEST_TEXT = {
     "en": "Korean restaurant near Luxembourg station: menu, opening hours and directions, even offline.",
     "ko": "룩셈부르크 역 근처 한식당: 메뉴, 영업시간, 오시는 길을 오프라인에서도 확인하세요.",
     "zh": "卢森堡火车站附近的韩国餐厅：菜单、营业时间和地址，离线也能查看。",
+    **DE_LB.MANIFEST_TEXT,
 }
 
 
@@ -693,8 +758,7 @@ def build(code):
     missing = []
 
     # 1. Textes (fragments les plus longs d'abord)
-    for row in sorted(build_rows(), key=lambda r: len(r[0]), reverse=True):
-        fr, target = row[0], row[IDX[code]]
+    for fr, target in sorted(rows_for(code), key=lambda r: len(r[0]), reverse=True):
         if fr not in html:
             missing.append(fr)
             continue
@@ -723,8 +787,9 @@ def build(code):
     html = replace_once(html, "<address>", '<address lang="fr">', "adresse")
     html = replace_once(html, "<p><strong>63, avenue de la Gare</strong>", '<p lang="fr"><strong>63, avenue de la Gare</strong>', "adresse footer")
 
-    # 4. Formats : prix « €12.99 », heures « 11:00 »
-    html = re.sub(r"(\d+)(?:,(\d+))?&nbsp;€", lambda m: "€" + m.group(1) + ("." + m.group(2) if m.group(2) else ""), html)
+    # 4. Formats : prix « €12.99 » (sauf allemand/luxembourgeois : « 12,99 € »), heures « 11:00 »
+    if code not in ("de", "lb"):
+        html = re.sub(r"(\d+)(?:,(\d+))?&nbsp;€", lambda m: "€" + m.group(1) + ("." + m.group(2) if m.group(2) else ""), html)
     html = html.replace("11h00", "11:00").replace("17h30", "17:30")
 
     # 5. Police coréenne / chinoise (polices système, rien à télécharger)

@@ -3,8 +3,32 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://yanji.lu/</loc>
-    <lastmod>2026-09-27</lastmod>
+    <lastmod>2026-09-29</lastmod>
     <xhtml:link rel="alternate" hreflang="fr" href="https://yanji.lu/"/>
+    <xhtml:link rel="alternate" hreflang="lb" href="https://yanji.lu/lb/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://yanji.lu/de/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://yanji.lu/en/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://yanji.lu/ko/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://yanji.lu/zh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://yanji.lu/"/>
+  </url>
+  <url>
+    <loc>https://yanji.lu/lb/</loc>
+    <lastmod>2026-09-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://yanji.lu/"/>
+    <xhtml:link rel="alternate" hreflang="lb" href="https://yanji.lu/lb/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://yanji.lu/de/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://yanji.lu/en/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://yanji.lu/ko/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://yanji.lu/zh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://yanji.lu/"/>
+  </url>
+  <url>
+    <loc>https://yanji.lu/de/</loc>
+    <lastmod>2026-09-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://yanji.lu/"/>
+    <xhtml:link rel="alternate" hreflang="lb" href="https://yanji.lu/lb/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://yanji.lu/de/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://yanji.lu/en/"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://yanji.lu/ko/"/>
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://yanji.lu/zh/"/>
@@ -12,8 +36,10 @@
   </url>
   <url>
     <loc>https://yanji.lu/en/</loc>
-    <lastmod>2026-09-27</lastmod>
+    <lastmod>2026-09-29</lastmod>
     <xhtml:link rel="alternate" hreflang="fr" href="https://yanji.lu/"/>
+    <xhtml:link rel="alternate" hreflang="lb" href="https://yanji.lu/lb/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://yanji.lu/de/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://yanji.lu/en/"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://yanji.lu/ko/"/>
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://yanji.lu/zh/"/>
@@ -21,8 +47,10 @@
   </url>
   <url>
     <loc>https://yanji.lu/ko/</loc>
-    <lastmod>2026-09-27</lastmod>
+    <lastmod>2026-09-29</lastmod>
     <xhtml:link rel="alternate" hreflang="fr" href="https://yanji.lu/"/>
+    <xhtml:link rel="alternate" hreflang="lb" href="https://yanji.lu/lb/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://yanji.lu/de/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://yanji.lu/en/"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://yanji.lu/ko/"/>
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://yanji.lu/zh/"/>
@@ -30,8 +58,10 @@
   </url>
   <url>
     <loc>https://yanji.lu/zh/</loc>
-    <lastmod>2026-09-27</lastmod>
+    <lastmod>2026-09-29</lastmod>
     <xhtml:link rel="alternate" hreflang="fr" href="https://yanji.lu/"/>
+    <xhtml:link rel="alternate" hreflang="lb" href="https://yanji.lu/lb/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://yanji.lu/de/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://yanji.lu/en/"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://yanji.lu/ko/"/>
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://yanji.lu/zh/"/>

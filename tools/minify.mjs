@@ -19,7 +19,7 @@ import { minify as minifyHtml } from 'html-minifier-terser';
 import { minify as minifyJs } from 'terser';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const LANG_DIRS = ['', 'en/', 'ko/', 'zh/'];
+const LANG_DIRS = ['', 'lb/', 'de/', 'en/', 'ko/', 'zh/'];
 
 // Fichiers pré-cachés par le service worker (chemins relatifs à sw.js)
 const PRECACHE = [
