@@ -4,7 +4,7 @@
  *
  *   npm run build   (build-i18n.py puis ce script)
  *
- * - index.html, en/, ko/, zh/ : HTML, CSS et JS inline minifiés, JSON-LD compacté.
+ * - index.html et les dossiers de langue : HTML, CSS et JS inline minifiés, JSON-LD compacté.
  * - Manifestes : JSON compacté.
  * - sw.js : généré depuis src/sw.js avec la liste des fichiers à pré-cacher et
  *   une version = empreinte de leur contenu. Tout changement du site change
@@ -19,7 +19,7 @@ import { minify as minifyHtml } from 'html-minifier-terser';
 import { minify as minifyJs } from 'terser';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const LANG_DIRS = ['', 'lb/', 'de/', 'en/', 'ko/', 'zh/'];
+const LANG_DIRS = ['', 'lb/', 'de/', 'en/', 'ko/', 'zh/', 'ja/'];
 
 // Fichiers pré-cachés par le service worker (chemins relatifs à sw.js)
 const PRECACHE = [

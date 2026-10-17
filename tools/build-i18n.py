@@ -7,8 +7,11 @@ Assemble les pages du site à partir des sources et génère les traductions.
 
 Sources : src/index.html (français), src/styles.css et src/main.js, insérés
 dans la page à la place de leurs balises <link data-inline> / <script data-inline>.
-Le script écrit index.html (français), en/, ko/ et zh/, plus un manifeste PWA
-par langue. Chaque fragment français est remplacé par sa traduction ; si un
+Les informations pratiques (horaires, téléphone, email, langues parlées) viennent
+de infos.md : dans les sources, elles sont écrites {{open}}, {{phone}}… et
+remplacées en dernier, avec le format de chaque langue.
+Le script écrit index.html (français), lb/, de/, en/, ko/, zh/ et ja/, un
+manifeste PWA par langue et sitemap.xml. Chaque fragment français est remplacé par sa traduction ; si un
 fragment n'est plus trouvé (texte source modifié), le script s'arrête et
 indique lequel : il suffit de mettre à jour la ligne correspondante ci-dessous.
 """
@@ -19,10 +22,16 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import i18n_de_lb as DE_LB  # traductions allemandes et luxembourgeoises
+import i18n_ja as JA  # traductions japonaises
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "src"
 SITE = "https://yanji.lu/"  # TODO : remplacer par le vrai domaine
+# Adresse réelle de l'application (PWA) : id, start_url et scope des manifestes.
+# En URL complète pour que l'app ne soit pas confondue avec d'autres sites
+# hébergés sur geoffreycrofte.github.io. À changer avec le domaine.
+APP_URL = "https://geoffreycrofte.github.io/yanji-korean-food-luxembourg/"
+INFOS = ROOT / "infos.md"
 
 LANGS = {
     "en": {"html": "en", "og": "en_GB", "button": "EN", "label": "Language: ", "font": None},
@@ -34,6 +43,9 @@ LANGS = {
     # Allemand et luxembourgeois : textes dans tools/i18n_de_lb.py, prix au format européen
     "de": {"html": "de", "og": "de_DE", "button": "DE", "label": "Sprache: ", "font": None},
     "lb": {"html": "lb", "og": "lb_LU", "button": "LB", "label": "Sprooch: ", "font": None},
+    # Japonais : textes dans tools/i18n_ja.py
+    "ja": {"html": "ja", "og": "ja_JP", "button": "日本語", "label": "言語：",
+           "font": '"Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans JP", "Noto Sans CJK JP"'},
 }
 LANG_MENU = [  # (dossier, hreflang, nom affiché)
     ("", "fr", "Français"),
@@ -42,6 +54,7 @@ LANG_MENU = [  # (dossier, hreflang, nom affiché)
     ("en/", "en", "English"),
     ("ko/", "ko", "한국어"),
     ("zh/", "zh-Hans", "中文"),
+    ("ja/", "ja", "日本語"),
 ]
 
 # --------------------------------------------------------------------------
@@ -163,10 +176,10 @@ ROWS = [
      "<title>Yanji Korean Food – Korean restaurant near Luxembourg station | Kimbap, Bibimbap</title>",
      "<title>Yanji Korean Food 연길 – 룩셈부르크 역 근처 한식당 | 김밥, 비빔밥</title>",
      "<title>Yanji Korean Food 延吉 – 卢森堡火车站附近的韩国餐厅 | 紫菜卷、石锅拌饭</title>"),
-    ("Yanji Korean Food, petit restaurant coréen au 63 avenue de la Gare à Luxembourg. Kimbap, bibimbap en pot de pierre, tteokbokki, soupes épicées et poulet frit coréen. Ouvert du lundi au samedi, 11h00–17h30.",
-     "Yanji Korean Food, a small Korean restaurant at 63 avenue de la Gare, Luxembourg. Kimbap, stone-pot bibimbap, tteokbokki, spicy soups and Korean fried chicken. Open Monday to Saturday, 11:00–17:30.",
-     "룩셈부르크 avenue de la Gare 63번지의 작은 한식당, Yanji Korean Food. 김밥, 돌솥비빔밥, 떡볶이, 매운 국물 요리와 한국식 치킨. 월요일–토요일 11:00–17:30 영업.",
-     "Yanji Korean Food，位于卢森堡 avenue de la Gare 63 号的韩国小餐馆。紫菜卷、石锅拌饭、辣炒年糕、辣汤和韩式炸鸡。周一至周六 11:00–17:30 营业。"),
+    ("Yanji Korean Food, petit restaurant coréen au 63 avenue de la Gare à Luxembourg. Kimbap, bibimbap en pot de pierre, tteokbokki, soupes épicées et poulet frit coréen. Ouvert du lundi au samedi, {{open}}–{{close}}.",
+     "Yanji Korean Food, a small Korean restaurant at 63 avenue de la Gare, Luxembourg. Kimbap, stone-pot bibimbap, tteokbokki, spicy soups and Korean fried chicken. Open Monday to Saturday, {{open}}–{{close}}.",
+     "룩셈부르크 avenue de la Gare 63번지의 작은 한식당, Yanji Korean Food. 김밥, 돌솥비빔밥, 떡볶이, 매운 국물 요리와 한국식 치킨. 월요일–토요일 {{open}}–{{close}} 영업.",
+     "Yanji Korean Food，位于卢森堡 avenue de la Gare 63 号的韩国小餐馆。紫菜卷、石锅拌饭、辣炒年糕、辣汤和韩式炸鸡。周一至周六 {{open}}–{{close}} 营业。"),
     ("restaurant coréen Luxembourg, Korean food Luxembourg, kimbap, bibimbap, tteokbokki, poulet frit coréen, avenue de la Gare, Luxembourg-Gare, Yanji",
      "Korean restaurant Luxembourg, Korean food Luxembourg, kimbap, bibimbap, tteokbokki, Korean fried chicken, avenue de la Gare, Luxembourg station, Yanji",
      "룩셈부르크 한식당, 룩셈부르크 한국 음식, 김밥, 비빔밥, 떡볶이, 치킨, avenue de la Gare, Yanji, 연길",
@@ -175,10 +188,10 @@ ROWS = [
      'content="Yanji Korean Food – Korean restaurant near Luxembourg station"',
      'content="Yanji Korean Food – 룩셈부르크 역 근처 한식당"',
      'content="Yanji Korean Food – 卢森堡火车站附近的韩国餐厅"'),
-    ("Kimbap, bibimbap en pot de pierre, tteokbokki et poulet frit coréen. 63 avenue de la Gare, Luxembourg. Lun–Sam 11h00–17h30.",
-     "Kimbap, stone-pot bibimbap, tteokbokki and Korean fried chicken. 63 avenue de la Gare, Luxembourg. Mon–Sat 11:00–17:30.",
-     "김밥, 돌솥비빔밥, 떡볶이, 한국식 치킨. 룩셈부르크 avenue de la Gare 63. 월–토 11:00–17:30.",
-     "紫菜卷、石锅拌饭、辣炒年糕和韩式炸鸡。卢森堡 avenue de la Gare 63 号。周一至周六 11:00–17:30。"),
+    ("Kimbap, bibimbap en pot de pierre, tteokbokki et poulet frit coréen. 63 avenue de la Gare, Luxembourg. Lun–Sam {{open}}–{{close}}.",
+     "Kimbap, stone-pot bibimbap, tteokbokki and Korean fried chicken. 63 avenue de la Gare, Luxembourg. Mon–Sat {{open}}–{{close}}.",
+     "김밥, 돌솥비빔밥, 떡볶이, 한국식 치킨. 룩셈부르크 avenue de la Gare 63. 월–토 {{open}}–{{close}}.",
+     "紫菜卷、石锅拌饭、辣炒年糕和韩式炸鸡。卢森堡 avenue de la Gare 63 号。周一至周六 {{open}}–{{close}}。"),
 
     # --- En-tête ---
     ("Aller au contenu", "Skip to content", "본문 바로가기", "跳到主要内容"),
@@ -206,7 +219,7 @@ ROWS = [
      "Freshly rolled kimbap, stone-pot bibimbap, spicy soups and Korean fried chicken, a short walk from Luxembourg station.",
      "갓 말은 김밥, 돌솥비빔밥, 매콤한 국물 요리와 한국식 치킨을 룩셈부르크 역 바로 앞에서 만나 보세요.",
      "现卷紫菜卷、石锅拌饭、香辣汤品和韩式炸鸡，距卢森堡火车站仅几步之遥。"),
-    ("Lun – Sam · 11h00 – 17h30", "Mon – Sat · 11:00 – 17:30", "월 – 토 · 11:00 – 17:30", "周一至周六 · 11:00 – 17:30"),
+    ("Lun – Sam · {{open}} – {{close}}", "Mon – Sat · {{open}} – {{close}}", "월 – 토 · {{open}} – {{close}}", "周一至周六 · {{open}} – {{close}}"),
     (">Voir la carte</a>", ">See the menu</a>", ">메뉴 보기</a>", ">查看菜单</a>"),
     (">Nous trouver</a>", ">Find us</a>", ">찾아오시는 길</a>", ">如何找到我们</a>"),
     ('Saveurs de Corée<small lang="ko">한국의 맛</small>', 'Flavours of Korea<small lang="ko">한국의 맛</small>',
@@ -377,16 +390,15 @@ ROWS = [
     # --- Modale avant appel ---
     ('<h2 id="call-dialog-title">Avant d\'appeler</h2>', '<h2 id="call-dialog-title">Before you call</h2>',
      '<h2 id="call-dialog-title">전화하기 전에</h2>', '<h2 id="call-dialog-title">致电前请注意</h2>'),
-    ('<p id="call-dialog-text">Nous parlons uniquement anglais, coréen et un peu de français. Merci d\'en tenir compte avant d\'appeler&nbsp;!</p>',
-     '<p id="call-dialog-text">We only speak English, Korean and a little French. Please keep this in mind before calling. Thank you!</p>',
-     '<p id="call-dialog-text">저희는 영어, 한국어, 그리고 약간의 프랑스어만 가능합니다. 전화 주시기 전에 참고해 주세요. 감사합니다!</p>',
-     '<p id="call-dialog-text">我们只会说英语、韩语和一点法语。致电前请留意，谢谢！</p>'),
+    ('<p id="call-dialog-text">Au téléphone, nous parlons les langues ci-dessous. Merci d\'en tenir compte avant d\'appeler&nbsp;!</p>',
+     '<p id="call-dialog-text">On the phone, we speak the languages below. Please keep this in mind before calling. Thank you!</p>',
+     '<p id="call-dialog-text">전화로는 아래 언어로 응대해 드립니다. 전화 주시기 전에 참고해 주세요. 감사합니다!</p>',
+     '<p id="call-dialog-text">电话中我们可以使用以下语言。致电前请留意，谢谢！</p>'),
     ('aria-label="Langues parlées"', 'aria-label="Languages spoken"', 'aria-label="가능한 언어"', 'aria-label="可使用的语言"'),
-    ('</span> <small>(un peu)</small>', '</span> <small>(a little)</small>', '</span> <small>(조금)</small>', '</span> <small>（一点）</small>'),
-    ('<span>Appeler le <span class="tel-num">+352 28 99 61 11</span></span>',
-     '<span>Call <span class="tel-num">+352 28 99 61 11</span></span>',
-     '<span><span class="tel-num">+352 28 99 61 11</span>로 전화하기</span>',
-     '<span>拨打 <span class="tel-num">+352 28 99 61 11</span></span>'),
+    ('<span>Appeler le <span class="tel-num">{{phone}}</span></span>',
+     '<span>Call <span class="tel-num">{{phone}}</span></span>',
+     '<span><span class="tel-num">{{phone}}</span>로 전화하기</span>',
+     '<span>拨打 <span class="tel-num">{{phone}}</span></span>'),
     ('id="call-dialog-cancel">Annuler</button>', 'id="call-dialog-cancel">Cancel</button>', 'id="call-dialog-cancel">취소</button>', 'id="call-dialog-cancel">取消</button>'),
 
     # --- PWA : bannière d'installation ---
@@ -421,6 +433,7 @@ ROWS = [
      '<th scope="row">일요일</th><td>휴무</td>', '<th scope="row">星期日</th><td>休息</td>'),
     ("</span> Contact</h3>", "</span> Contact</h3>", "</span> 연락처</h3>", "</span> 联系方式</h3>"),
     ("<strong>Téléphone</strong>", "<strong>Phone</strong>", "<strong>전화</strong>", "<strong>电话</strong>"),
+    ("<strong>E-mail</strong>", "<strong>Email</strong>", "<strong>이메일</strong>", "<strong>电子邮箱</strong>"),
     ("<strong>Adresse</strong>", "<strong>Address</strong>", "<strong>주소</strong>", "<strong>地址</strong>"),
     ("<strong>Accès</strong>Quartier Gare, à quelques minutes à pied de la gare centrale et du tram.",
      "<strong>Getting here</strong>Gare district, a few minutes’ walk from the central station and the tram.",
@@ -518,11 +531,11 @@ JS_T = {
     "en": """    var T = {
       openMenu: 'Open menu',
       closeMenu: 'Close menu',
-      openSoon: 'Open · closing soon (17:30)',
-      openNow: 'Open now · until 17:30',
-      closedToday: 'Closed · opens at 11:00',
-      closedTomorrow: 'Closed · opens tomorrow at 11:00',
-      closedMonday: 'Closed · opens Monday at 11:00',
+      openSoon: 'Open · closing soon ({{close}})',
+      openNow: 'Open now · until {{close}}',
+      closedToday: 'Closed · opens at {{open}}',
+      closedTomorrow: 'Closed · opens tomorrow at {{open}}',
+      closedMonday: 'Closed · opens Monday at {{open}}',
       today: ' · today',
       allergens: 'Allergens:',
       notVeg: 'not vegetarian',
@@ -536,11 +549,11 @@ JS_T = {
     "ko": """    var T = {
       openMenu: '메뉴 열기',
       closeMenu: '메뉴 닫기',
-      openSoon: '영업 중 · 곧 마감 (17:30)',
-      openNow: '지금 영업 중 · 17:30까지',
-      closedToday: '영업 전 · 11:00 오픈',
-      closedTomorrow: '영업 종료 · 내일 11:00 오픈',
-      closedMonday: '영업 종료 · 월요일 11:00 오픈',
+      openSoon: '영업 중 · 곧 마감 ({{close}})',
+      openNow: '지금 영업 중 · {{close}}까지',
+      closedToday: '영업 전 · {{open}} 오픈',
+      closedTomorrow: '영업 종료 · 내일 {{open}} 오픈',
+      closedMonday: '영업 종료 · 월요일 {{open}} 오픈',
       today: ' · 오늘',
       allergens: '알레르기 성분:',
       notVeg: '채식 아님',
@@ -554,11 +567,11 @@ JS_T = {
     "zh": """    var T = {
       openMenu: '打开菜单',
       closeMenu: '关闭菜单',
-      openSoon: '营业中 · 即将打烊（17:30）',
-      openNow: '正在营业 · 至 17:30',
-      closedToday: '尚未营业 · 11:00 开门',
-      closedTomorrow: '已打烊 · 明天 11:00 开门',
-      closedMonday: '已打烊 · 周一 11:00 开门',
+      openSoon: '营业中 · 即将打烊（{{close}}）',
+      openNow: '正在营业 · 至 {{close}}',
+      closedToday: '尚未营业 · {{open}} 开门',
+      closedTomorrow: '已打烊 · 明天 {{open}} 开门',
+      closedMonday: '已打烊 · 周一 {{open}} 开门',
       today: ' · 今天',
       allergens: '过敏原：',
       notVeg: '非素食',
@@ -572,6 +585,7 @@ JS_T = {
 }
 
 JS_T.update(DE_LB.JS_T)
+JS_T.update(JA.JS_T)
 
 IDX = {"en": 1, "ko": 2, "zh": 3}
 
@@ -626,7 +640,8 @@ def rows_for(code):
     """Paires (fragment français, traduction) pour une langue."""
     if code in IDX:
         return [(r[0], r[IDX[code]]) for r in build_rows()]
-    i = 0 if code == "de" else 1
+    # Langues indexées par le texte anglais : (module, colonne)
+    mod, i = {"de": (DE_LB, 0), "lb": (DE_LB, 1), "ja": (JA, 0)}[code]
     rows, missing = [], []
 
     def tr(table, key):
@@ -636,11 +651,11 @@ def rows_for(code):
         return table[key][i] if not isinstance(table[key], str) else table[key]
 
     for fr, en, _ko, _zh in ROWS:
-        t = tr(DE_LB.ROWS, en)
+        t = tr(mod.ROWS, en)
         if t is not None:
             rows.append((fr, t))
     for fr, en, ko, _zh in DISHES:
-        t = tr(DE_LB.DISHES, en)
+        t = tr(mod.DISHES, en)
         if t is None:
             continue
         fr_html, sub = fr.replace("&", "&amp;"), KO_SUBTITLE.get(fr, ko)
@@ -648,30 +663,30 @@ def rows_for(code):
                      f'{t.replace("&", "&amp;")}<span class="dish__ko" lang="ko">{sub}</span>'))
         rows.append((f'"name": "{fr}"', f'"name": "{t}"'))
     for fr, en, _ko, _zh in DESCRIPTIONS:
-        t = tr(DE_LB.DESCRIPTIONS, en)
+        t = tr(mod.DESCRIPTIONS, en)
         if t is not None:
             rows.append((f">{fr}.</p>", f">{t}.</p>"))
             rows.append((f'"description": "{fr}', f'"description": "{t}'))
     spicy = '<span aria-hidden="true">🌶️</span><span class="visually-hidden">({})</span>'
     for fr, fr_small, ko, en, _en_small, _zh, _zh_small in SIDES:
-        if en not in DE_LB.SIDES:
+        if en not in mod.SIDES:
             missing.append(en)
             continue
-        name, small = DE_LB.SIDES[en][2 * i], DE_LB.SIDES[en][2 * i + 1]
+        name, small = mod.SIDES[en][2 * i], mod.SIDES[en][2 * i + 1]
         rows.append((
             f'<span class="side__name">{fr} {spicy.format("épicé")}<small>{fr_small}</small><span class="dish__ko" lang="ko">{ko}</span></span>',
-            f'<span class="side__name">{name} {spicy.format(DE_LB.SPICY[i])}<small>{small}</small><span class="dish__ko" lang="ko">{ko}</span></span>'))
+            f'<span class="side__name">{name} {spicy.format(mod.SPICY[i])}<small>{small}</small><span class="dish__ko" lang="ko">{ko}</span></span>'))
     for fr, ko, en, _zh in JUICES:
-        t = tr(DE_LB.JUICES, en)
+        t = tr(mod.JUICES, en)
         if t is not None:
             rows.append((f'{fr}<small lang="ko">{ko}</small>', f'{t}<small lang="ko">{ko}</small>'))
     for fr, deco, en, _ko, _zh in SECTION_TITLES:
-        t = tr(DE_LB.SECTION_TITLES, en)
+        t = tr(mod.SECTION_TITLES, en)
         if t is not None:
             rows.append((f'<span>{fr}</span><span lang="ko" aria-hidden="true">{deco}</span>',
                          f'<span>{t}</span><span lang="ko" aria-hidden="true">{deco}</span>'))
     if missing:
-        sys.exit(f"[i18n] Traductions {code} manquantes dans tools/i18n_de_lb.py (clé anglaise) :\n  - "
+        sys.exit(f"[i18n] Traductions {code} manquantes dans tools/{Path(mod.__file__).name} (clé anglaise) :\n  - "
                  + "\n  - ".join(m[:110] for m in missing))
     return rows
 
@@ -709,6 +724,99 @@ def assemble():
     return html
 
 
+# --------------------------------------------------------------------------
+# Informations pratiques : infos.md (éditable sur GitHub, voir README)
+# --------------------------------------------------------------------------
+# Langues proposées au téléphone : nom français dans infos.md -> (code, nom affiché)
+PHONE_LANGS = {
+    "francais": ("fr", "Français"),
+    "anglais": ("en", "English"),
+    "allemand": ("de", "Deutsch"),
+    "luxembourgeois": ("lb", "Lëtzebuergesch"),
+    "coreen": ("ko", "한국어"),
+    "chinois": ("zh", "中文"),
+    "japonais": ("ja", "日本語"),
+    "portugais": ("pt", "Português"),
+    "italien": ("it", "Italiano"),
+    "espagnol": ("es", "Español"),
+}
+
+
+def plain(text):
+    """Minuscules sans accents : « Téléphone » -> « telephone »."""
+    import unicodedata
+    text = unicodedata.normalize("NFKD", text.strip().lower())
+    return "".join(c for c in text if not unicodedata.combining(c))
+
+
+def parse_time(value, what):
+    m = re.fullmatch(r"(\d{1,2})\s*[:hH]\s*(\d{2})?", value.strip())
+    if not m or int(m.group(1)) > 23 or int(m.group(2) or 0) > 59:
+        sys.exit(f"[infos] infos.md : heure invalide pour « {what} » : « {value} » (exemple : 18:30)")
+    return int(m.group(1)), int(m.group(2) or 0)
+
+
+def read_infos():
+    """Lit les lignes « - Clé : valeur » de infos.md."""
+    raw = {}
+    for line in INFOS.read_text(encoding="utf-8").splitlines():
+        m = re.match(r"\s*[-*]\s*([^:]+?)\s*:\s*(.*?)\s*$", line)
+        if m:
+            raw[plain(m.group(1))] = m.group(2).strip().strip("`")
+    for key in ("ouverture", "fermeture", "telephone"):
+        if not raw.get(key):
+            sys.exit(f"[infos] infos.md : la ligne « {key.capitalize()} : … » est manquante ou vide")
+
+    (oh, om), (ch, cm) = parse_time(raw["ouverture"], "Ouverture"), parse_time(raw["fermeture"], "Fermeture")
+    if (ch, cm) <= (oh, om):
+        sys.exit("[infos] infos.md : la fermeture doit être après l'ouverture")
+
+    phone = raw["telephone"]
+    digits = re.sub(r"[^\d+]", "", phone)
+    if not re.fullmatch(r"\+?\d{6,15}", digits):
+        sys.exit(f"[infos] infos.md : numéro de téléphone invalide : « {phone} »")
+
+    email = raw.get("email", "")
+    if email and not re.fullmatch(r"[^@\s<>\"]+@[^@\s<>\"]+\.[a-zA-Z]{2,}", email):
+        sys.exit(f"[infos] infos.md : adresse email invalide : « {email} »")
+
+    langs = []
+    for name in re.split(r"[,;]", raw.get("langues parlees au telephone", "")):
+        if not name.strip():
+            continue
+        if plain(name) not in PHONE_LANGS:
+            sys.exit(f"[infos] infos.md : langue inconnue « {name.strip()} ». Langues possibles : "
+                     + ", ".join(PHONE_LANGS))
+        langs.append(PHONE_LANGS[plain(name)])
+    if not langs:
+        sys.exit("[infos] infos.md : indiquez au moins une langue parlée au téléphone")
+
+    return {
+        "open": (oh, om), "close": (ch, cm),
+        "phone": phone, "phone_href": digits, "email": email,
+        "phone_langs": "\n        ".join(f'<li lang="{c}">{n}</li>' for c, n in langs),
+    }
+
+
+def fill_infos(html, code, infos):
+    """Remplace les {{variables}} par les valeurs de infos.md, au format de la langue."""
+    def fmt(hm):  # 11h00 en français, 11:00 ailleurs
+        return f"{hm[0]}h{hm[1]:02d}" if code == "fr" else f"{hm[0]}:{hm[1]:02d}"
+
+    # Blocs affichés seulement si l'email est renseigné
+    html = re.sub(r"[ \t]*<!-- if:email -->(.*?)<!-- /if:email -->\n?",
+                  lambda m: m.group(1) if infos["email"] else "", html, flags=re.S)
+    values = {
+        "open": fmt(infos["open"]), "close": fmt(infos["close"]),
+        "open_iso": "%02d:%02d" % infos["open"], "close_iso": "%02d:%02d" % infos["close"],
+        "phone": infos["phone"], "phone_href": infos["phone_href"],
+        "email": infos["email"], "phone_langs": infos["phone_langs"],
+    }
+    html = re.sub(r"\{\{(\w+)\}\}", lambda m: values[m.group(1)] if m.group(1) in values
+                  else sys.exit(f"[infos] Variable inconnue : {{{{{m.group(1)}}}}}"), html)
+    return html
+
+
 # Manifeste PWA (un par langue)
 MANIFEST_TEXT = {
     "fr": "Restaurant coréen à Luxembourg-Gare : la carte, les horaires et l'accès, même hors connexion.",
@@ -716,6 +824,7 @@ MANIFEST_TEXT = {
     "ko": "룩셈부르크 역 근처 한식당: 메뉴, 영업시간, 오시는 길을 오프라인에서도 확인하세요.",
     "zh": "卢森堡火车站附近的韩国餐厅：菜单、营业时间和地址，离线也能查看。",
     **DE_LB.MANIFEST_TEXT,
+    **JA.MANIFEST_TEXT,
 }
 
 
@@ -723,14 +832,15 @@ def write_manifest(code):
     sub = code != "fr"
     prefix = "../" if sub else ""
     manifest = {
-        "id": "./",
+        # Même id et même scope pour toutes les langues : une seule application
+        "id": APP_URL,
         "name": "Yanji Korean Food",
         "short_name": "Yanji",
         "description": MANIFEST_TEXT[code],
         "lang": LANGS[code]["html"] if sub else "fr",
         "dir": "ltr",
-        "start_url": "./",
-        "scope": prefix or "./",
+        "start_url": APP_URL + (code + "/" if sub else ""),
+        "scope": APP_URL,
         "display": "standalone",
         "background_color": "#fffaf2",
         "theme_color": "#d13a4a",
@@ -746,13 +856,24 @@ def write_manifest(code):
     out.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
-def build_fr():
-    (ROOT / "index.html").write_text(assemble(), encoding="utf-8")
+def write_sitemap():
+    from datetime import date
+    links = "".join(f'\n    <xhtml:link rel="alternate" hreflang="{h}" href="{SITE}{d}"/>' for d, h, _ in LANG_MENU)
+    links += f'\n    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE}"/>'
+    urls = "".join(f"\n  <url>\n    <loc>{SITE}{d}</loc>\n    <lastmod>{date.today().isoformat()}</lastmod>{links}\n  </url>"
+                   for d, _, _ in LANG_MENU)
+    (ROOT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
+                                      '        xmlns:xhtml="http://www.w3.org/1999/xhtml">' + urls + "\n</urlset>\n", encoding="utf-8")
+
+
+def build_fr(infos):
+    html = re.sub(r"<!-- i18n:langs -->.*?<!-- /i18n:langs -->", lambda m: lang_menu("fr", ""), assemble(), flags=re.S)
+    (ROOT / "index.html").write_text(fill_infos(html, "fr", infos), encoding="utf-8")
     write_manifest("fr")
     print("[i18n] index.html (fr) généré")
 
 
-def build(code):
+def build(code, infos):
     cfg = LANGS[code]
     html = assemble()
     missing = []
@@ -787,10 +908,9 @@ def build(code):
     html = replace_once(html, "<address>", '<address lang="fr">', "adresse")
     html = replace_once(html, "<p><strong>63, avenue de la Gare</strong>", '<p lang="fr"><strong>63, avenue de la Gare</strong>', "adresse footer")
 
-    # 4. Formats : prix « €12.99 » (sauf allemand/luxembourgeois : « 12,99 € »), heures « 11:00 »
+    # 4. Formats : prix « €12.99 » (sauf allemand/luxembourgeois : « 12,99 € »), heures « {{open}} »
     if code not in ("de", "lb"):
         html = re.sub(r"(\d+)(?:,(\d+))?&nbsp;€", lambda m: "€" + m.group(1) + ("." + m.group(2) if m.group(2) else ""), html)
-    html = html.replace("11h00", "11:00").replace("17h30", "17:30")
 
     # 5. Police coréenne / chinoise (polices système, rien à télécharger)
     if cfg["font"]:
@@ -803,6 +923,7 @@ def build(code):
                             + "    .section-title > span:first-child { -webkit-text-stroke: 0; text-shadow: 2px 2px 0 var(--ink); }\n"
                             "  </style>\n</head>", "police")
 
+    html = fill_infos(html, code, infos)
     out = ROOT / code / "index.html"
     out.parent.mkdir(exist_ok=True)
     out.write_text(html, encoding="utf-8")
@@ -811,6 +932,8 @@ def build(code):
 
 
 if __name__ == "__main__":
-    build_fr()
+    infos = read_infos()
+    build_fr(infos)
     for code in LANGS:
-        build(code)
+        build(code, infos)
+    write_sitemap()

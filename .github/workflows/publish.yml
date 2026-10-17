@@ -1,0 +1,54 @@
+# Regénère le site (toutes les langues) quand infos.md ou les sources changent,
+# puis commite les pages générées : GitHub Pages publie ensuite la branche main.
+name: Publier le site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - infos.md
+      - src/**
+      - tools/**
+      - package.json
+      - package-lock.json
+      - .github/workflows/publish.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Générer les pages
+        run: npm run build
+
+      - name: Commiter les pages générées
+        run: |
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Rien à publier : les pages sont déjà à jour."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Site regénéré (infos.md / sources)"
+          git push
