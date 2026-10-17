@@ -13,18 +13,18 @@ ROWS = {
     "<title>Yanji Korean Food – Korean restaurant near Luxembourg station | Kimbap, Bibimbap</title>": (
         "<title>Yanji Korean Food – Koreanisches Restaurant am Bahnhof Luxemburg | Kimbap, Bibimbap</title>",
         "<title>Yanji Korean Food – Koreanescht Restaurant bei der Gare zu Lëtzebuerg | Kimbap, Bibimbap</title>"),
-    "Yanji Korean Food, a small Korean restaurant at 63 avenue de la Gare, Luxembourg. Kimbap, stone-pot bibimbap, tteokbokki, spicy soups and Korean fried chicken. Open Monday to Saturday, 11:00–17:30.": (
-        "Yanji Korean Food, ein kleines koreanisches Restaurant in der 63, avenue de la Gare in Luxemburg. Kimbap, Bibimbap im Steintopf, Tteokbokki, scharfe Suppen und koreanisches Brathähnchen. Geöffnet Montag bis Samstag, 11:00–17:30 Uhr.",
-        "Yanji Korean Food, e klengt koreanescht Restaurant op der 63, avenue de la Gare zu Lëtzebuerg. Kimbap, Bibimbap am Steendëppen, Tteokbokki, schaarf Zoppen a koreanesche Poulet frit. Op vu Méindes bis Samschdes, 11:00–17:30 Auer."),
+    "Yanji Korean Food, a small Korean restaurant at 63 avenue de la Gare, Luxembourg. Kimbap, stone-pot bibimbap, tteokbokki, spicy soups and Korean fried chicken. Open Monday to Saturday, {{open}}–{{close}}.": (
+        "Yanji Korean Food, ein kleines koreanisches Restaurant in der 63, avenue de la Gare in Luxemburg. Kimbap, Bibimbap im Steintopf, Tteokbokki, scharfe Suppen und koreanisches Brathähnchen. Geöffnet Montag bis Samstag, {{open}}–{{close}} Uhr.",
+        "Yanji Korean Food, e klengt koreanescht Restaurant op der 63, avenue de la Gare zu Lëtzebuerg. Kimbap, Bibimbap am Steendëppen, Tteokbokki, schaarf Zoppen a koreanesche Poulet frit. Op vu Méindes bis Samschdes, {{open}}–{{close}} Auer."),
     "Korean restaurant Luxembourg, Korean food Luxembourg, kimbap, bibimbap, tteokbokki, Korean fried chicken, avenue de la Gare, Luxembourg station, Yanji": (
         "Koreanisches Restaurant Luxemburg, koreanisches Essen Luxemburg, Kimbap, Bibimbap, Tteokbokki, koreanisches Brathähnchen, avenue de la Gare, Bahnhofsviertel, Yanji",
         "Koreanescht Restaurant Lëtzebuerg, koreanescht Iessen Lëtzebuerg, Kimbap, Bibimbap, Tteokbokki, Poulet frit, avenue de la Gare, Garer Quartier, Yanji"),
     'content="Yanji Korean Food – Korean restaurant near Luxembourg station"': (
         'content="Yanji Korean Food – Koreanisches Restaurant am Bahnhof Luxemburg"',
         'content="Yanji Korean Food – Koreanescht Restaurant bei der Gare zu Lëtzebuerg"'),
-    "Kimbap, stone-pot bibimbap, tteokbokki and Korean fried chicken. 63 avenue de la Gare, Luxembourg. Mon–Sat 11:00–17:30.": (
-        "Kimbap, Bibimbap im Steintopf, Tteokbokki und koreanisches Brathähnchen. 63, avenue de la Gare, Luxemburg. Mo–Sa 11:00–17:30 Uhr.",
-        "Kimbap, Bibimbap am Steendëppen, Tteokbokki a koreanesche Poulet frit. 63, avenue de la Gare, Lëtzebuerg. Mé–Sa 11:00–17:30 Auer."),
+    "Kimbap, stone-pot bibimbap, tteokbokki and Korean fried chicken. 63 avenue de la Gare, Luxembourg. Mon–Sat {{open}}–{{close}}.": (
+        "Kimbap, Bibimbap im Steintopf, Tteokbokki und koreanisches Brathähnchen. 63, avenue de la Gare, Luxemburg. Mo–Sa {{open}}–{{close}} Uhr.",
+        "Kimbap, Bibimbap am Steendëppen, Tteokbokki a koreanesche Poulet frit. 63, avenue de la Gare, Lëtzebuerg. Mé–Sa {{open}}–{{close}} Auer."),
 
     # En-tête
     "Skip to content": ("Zum Inhalt springen", "Direkt zum Inhalt"),
@@ -49,7 +49,7 @@ ROWS = {
     "Freshly rolled kimbap, stone-pot bibimbap, spicy soups and Korean fried chicken, a short walk from Luxembourg station.": (
         "Frisch gerollte Kimbap, Bibimbap im Steintopf, scharfe Suppen und koreanisches Brathähnchen – nur ein paar Schritte vom Bahnhof Luxemburg.",
         "Frësch gerullte Kimbap, Bibimbap am Steendëppen, schaarf Zoppen a koreanesche Poulet frit – just e puer Schrëtt vun der Gare."),
-    "Mon – Sat · 11:00 – 17:30": ("Mo – Sa · 11:00 – 17:30", "Mé – Sa · 11:00 – 17:30"),
+    "Mon – Sat · {{open}} – {{close}}": ("Mo – Sa · {{open}} – {{close}}", "Mé – Sa · {{open}} – {{close}}"),
     ">See the menu</a>": (">Zur Speisekarte</a>", ">Menü kucken</a>"),
     ">Find us</a>": (">So finden Sie uns</a>", ">Esou fannt Dir eis</a>"),
     'Flavours of Korea<small lang="ko">한국의 맛</small>': (
@@ -193,14 +193,13 @@ ROWS = {
     # Modale avant appel
     '<h2 id="call-dialog-title">Before you call</h2>': (
         '<h2 id="call-dialog-title">Bevor Sie anrufen</h2>', '<h2 id="call-dialog-title">Ier Dir urufft</h2>'),
-    '<p id="call-dialog-text">We only speak English, Korean and a little French. Please keep this in mind before calling. Thank you!</p>': (
-        '<p id="call-dialog-text">Wir sprechen nur Englisch, Koreanisch und ein wenig Französisch. Bitte berücksichtigen Sie das vor Ihrem Anruf. Danke!</p>',
-        '<p id="call-dialog-text">Mir schwätzen nëmmen Englesch, Koreanesch an e bëssi Franséisch. Denkt w.e.g. drun, ier Dir urufft. Merci!</p>'),
+    '<p id="call-dialog-text">On the phone, we speak the languages below. Please keep this in mind before calling. Thank you!</p>': (
+        '<p id="call-dialog-text">Am Telefon sprechen wir die unten genannten Sprachen. Bitte berücksichtigen Sie das vor Ihrem Anruf. Danke!</p>',
+        '<p id="call-dialog-text">Um Telefon schwätze mir déi Sproochen hei ënnendrënner. Denkt w.e.g. drun, ier Dir urufft. Merci!</p>'),
     'aria-label="Languages spoken"': ('aria-label="Gesprochene Sprachen"', 'aria-label="Geschwate Sproochen"'),
-    "</span> <small>(a little)</small>": ("</span> <small>(ein wenig)</small>", "</span> <small>(e bëssi)</small>"),
-    '<span>Call <span class="tel-num">+352 28 99 61 11</span></span>': (
-        '<span><span class="tel-num">+352 28 99 61 11</span> anrufen</span>',
-        '<span><span class="tel-num">+352 28 99 61 11</span> uruffen</span>'),
+    '<span>Call <span class="tel-num">{{phone}}</span></span>': (
+        '<span><span class="tel-num">{{phone}}</span> anrufen</span>',
+        '<span><span class="tel-num">{{phone}}</span> uruffen</span>'),
     'id="call-dialog-cancel">Cancel</button>': ('id="call-dialog-cancel">Abbrechen</button>', 'id="call-dialog-cancel">Ofbriechen</button>'),
 
     # Bannière d'installation (iOS n'existe pas en luxembourgeois : libellés allemands)
@@ -231,6 +230,7 @@ ROWS = {
         '<th scope="row">Sonntag</th><td>Geschlossen</td>', '<th scope="row">Sonndeg</th><td>Zou</td>'),
     "</span> Contact</h3>": ("</span> Kontakt</h3>", "</span> Kontakt</h3>"),
     "<strong>Phone</strong>": ("<strong>Telefon</strong>", "<strong>Telefon</strong>"),
+    "<strong>Email</strong>": ("<strong>E-Mail</strong>", "<strong>E-Mail</strong>"),
     "<strong>Address</strong>": ("<strong>Adresse</strong>", "<strong>Adress</strong>"),
     "<strong>Getting here</strong>Gare district, a few minutes’ walk from the central station and the tram.": (
         "<strong>Anfahrt</strong>Bahnhofsviertel, wenige Gehminuten vom Hauptbahnhof und der Tram entfernt.",
@@ -397,11 +397,11 @@ JS_T = {
     "de": """    var T = {
       openMenu: 'Menü öffnen',
       closeMenu: 'Menü schließen',
-      openSoon: 'Geöffnet · schließt bald (17:30)',
-      openNow: 'Jetzt geöffnet · bis 17:30',
-      closedToday: 'Geschlossen · öffnet um 11:00',
-      closedTomorrow: 'Geschlossen · öffnet morgen um 11:00',
-      closedMonday: 'Geschlossen · öffnet Montag um 11:00',
+      openSoon: 'Geöffnet · schließt bald ({{close}})',
+      openNow: 'Jetzt geöffnet · bis {{close}}',
+      closedToday: 'Geschlossen · öffnet um {{open}}',
+      closedTomorrow: 'Geschlossen · öffnet morgen um {{open}}',
+      closedMonday: 'Geschlossen · öffnet Montag um {{open}}',
       today: ' · heute',
       allergens: 'Allergene:',
       notVeg: 'nicht vegetarisch',
@@ -415,11 +415,11 @@ JS_T = {
     "lb": """    var T = {
       openMenu: 'Menü opmaachen',
       closeMenu: 'Menü zoumaachen',
-      openSoon: 'Op · mécht geschwënn zou (17:30)',
-      openNow: 'Elo op · bis 17:30',
-      closedToday: 'Zou · mécht um 11:00 op',
-      closedTomorrow: 'Zou · mécht muer um 11:00 op',
-      closedMonday: 'Zou · mécht e Méindeg um 11:00 op',
+      openSoon: 'Op · mécht geschwënn zou ({{close}})',
+      openNow: 'Elo op · bis {{close}}',
+      closedToday: 'Zou · mécht um {{open}} op',
+      closedTomorrow: 'Zou · mécht muer um {{open}} op',
+      closedMonday: 'Zou · mécht e Méindeg um {{open}} op',
       today: ' · haut',
       allergens: 'Allergenen:',
       notVeg: 'net vegetaresch',

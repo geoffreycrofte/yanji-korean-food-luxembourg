@@ -1,5 +1,5 @@
 /* Service worker Yanji Korean Food
-   - Pré-cache : les 4 langues, polices, icônes, manifestes.
+   - Pré-cache : toutes les langues, polices, icônes, manifestes.
    - Pages : réseau d'abord (contenu à jour), cache en secours hors connexion.
    - Fichiers statiques : cache d'abord.
    - Mise à jour : la nouvelle version attend que l'utilisateur clique sur

@@ -6,7 +6,7 @@
 
   <!-- ===== SEO ===== -->
   <title>Yanji Korean Food – Restaurant coréen à Luxembourg-Gare | Kimbap, Bibimbap</title>
-  <meta name="description" content="Yanji Korean Food, petit restaurant coréen au 63 avenue de la Gare à Luxembourg. Kimbap, bibimbap en pot de pierre, tteokbokki, soupes épicées et poulet frit coréen. Ouvert du lundi au samedi, 11h00–17h30.">
+  <meta name="description" content="Yanji Korean Food, petit restaurant coréen au 63 avenue de la Gare à Luxembourg. Kimbap, bibimbap en pot de pierre, tteokbokki, soupes épicées et poulet frit coréen. Ouvert du lundi au samedi, {{open}}–{{close}}.">
   <meta name="keywords" content="restaurant coréen Luxembourg, Korean food Luxembourg, kimbap, bibimbap, tteokbokki, poulet frit coréen, avenue de la Gare, Luxembourg-Gare, Yanji">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#d13a4a">
@@ -18,6 +18,7 @@
   <link rel="alternate" hreflang="en" href="https://yanji.lu/en/">
   <link rel="alternate" hreflang="ko" href="https://yanji.lu/ko/">
   <link rel="alternate" hreflang="zh-Hans" href="https://yanji.lu/zh/">
+  <link rel="alternate" hreflang="ja" href="https://yanji.lu/ja/">
   <link rel="alternate" hreflang="x-default" href="https://yanji.lu/">
 
   <!-- Open Graph / réseaux sociaux -->
@@ -25,7 +26,7 @@
   <meta property="og:site_name" content="Yanji Korean Food">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:title" content="Yanji Korean Food – Restaurant coréen à Luxembourg-Gare">
-  <meta property="og:description" content="Kimbap, bibimbap en pot de pierre, tteokbokki et poulet frit coréen. 63 avenue de la Gare, Luxembourg. Lun–Sam 11h00–17h30.">
+  <meta property="og:description" content="Kimbap, bibimbap en pot de pierre, tteokbokki et poulet frit coréen. 63 avenue de la Gare, Luxembourg. Lun–Sam {{open}}–{{close}}.">
   <meta property="og:url" content="https://yanji.lu/">
   <meta property="og:image" content="https://yanji.lu/assets/og-image.png">
   <meta property="og:image:width" content="1200">
@@ -67,7 +68,7 @@
     "url": "https://yanji.lu/",
     "image": "https://yanji.lu/assets/og-image.png",
     "logo": "https://yanji.lu/assets/favicon.svg",
-    "telephone": "+352 28 99 61 11",
+    "telephone": "{{phone}}",
     "servesCuisine": ["Coréenne", "Korean"],
     "priceRange": "€€",
     "address": {
@@ -82,8 +83,8 @@
     "openingHoursSpecification": [{
       "@type": "OpeningHoursSpecification",
       "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-      "opens": "11:00",
-      "closes": "17:30"
+      "opens": "{{open_iso}}",
+      "closes": "{{close_iso}}"
     }],
     "hasMenu": {
       "@type": "Menu",
@@ -208,12 +209,13 @@
             <li><a href="en/" hreflang="en" lang="en">English</a></li>
             <li><a href="ko/" hreflang="ko" lang="ko">한국어</a></li>
             <li><a href="zh/" hreflang="zh-Hans" lang="zh-Hans">中文</a></li>
+            <li><a href="ja/" hreflang="ja" lang="ja">日本語</a></li>
           </ul>
           <!-- /i18n:langs -->
         </div>
       </div>
 
-      <a class="btn btn--red btn--small header-call" href="tel:+35228996111">
+      <a class="btn btn--red btn--small header-call" href="tel:{{phone_href}}">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>
         Appeler
       </a>
@@ -240,7 +242,7 @@
         </div>
         <div class="hero__intro">
           <p>Kimbap roulés, bibimbap en pot de pierre, soupes épicées et poulet frit coréen, à deux pas de la gare de Luxembourg.</p>
-          <span class="status" id="open-status" role="status" aria-atomic="true">Lun – Sam · 11h00 – 17h30</span>
+          <span class="status" id="open-status" role="status" aria-atomic="true">Lun – Sam · {{open}} – {{close}}</span>
           <a class="btn btn--yellow" href="#menu">Voir la carte</a>
           <a class="btn" href="#infos">Nous trouver</a>
         </div>
@@ -869,12 +871,12 @@
             <table class="hours" id="hours">
               <caption class="visually-hidden">Horaires d'ouverture</caption>
               <tbody>
-                <tr data-day="1"><th scope="row">Lundi</th><td><time datetime="11:00">11h00</time> – <time datetime="17:30">17h30</time></td></tr>
-                <tr data-day="2"><th scope="row">Mardi</th><td><time datetime="11:00">11h00</time> – <time datetime="17:30">17h30</time></td></tr>
-                <tr data-day="3"><th scope="row">Mercredi</th><td><time datetime="11:00">11h00</time> – <time datetime="17:30">17h30</time></td></tr>
-                <tr data-day="4"><th scope="row">Jeudi</th><td><time datetime="11:00">11h00</time> – <time datetime="17:30">17h30</time></td></tr>
-                <tr data-day="5"><th scope="row">Vendredi</th><td><time datetime="11:00">11h00</time> – <time datetime="17:30">17h30</time></td></tr>
-                <tr data-day="6"><th scope="row">Samedi</th><td><time datetime="11:00">11h00</time> – <time datetime="17:30">17h30</time></td></tr>
+                <tr data-day="1"><th scope="row">Lundi</th><td><time datetime="{{open_iso}}">{{open}}</time> – <time datetime="{{close_iso}}">{{close}}</time></td></tr>
+                <tr data-day="2"><th scope="row">Mardi</th><td><time datetime="{{open_iso}}">{{open}}</time> – <time datetime="{{close_iso}}">{{close}}</time></td></tr>
+                <tr data-day="3"><th scope="row">Mercredi</th><td><time datetime="{{open_iso}}">{{open}}</time> – <time datetime="{{close_iso}}">{{close}}</time></td></tr>
+                <tr data-day="4"><th scope="row">Jeudi</th><td><time datetime="{{open_iso}}">{{open}}</time> – <time datetime="{{close_iso}}">{{close}}</time></td></tr>
+                <tr data-day="5"><th scope="row">Vendredi</th><td><time datetime="{{open_iso}}">{{open}}</time> – <time datetime="{{close_iso}}">{{close}}</time></td></tr>
+                <tr data-day="6"><th scope="row">Samedi</th><td><time datetime="{{open_iso}}">{{open}}</time> – <time datetime="{{close_iso}}">{{close}}</time></td></tr>
                 <tr data-day="0" class="is-closed"><th scope="row">Dimanche</th><td>Fermé</td></tr>
               </tbody>
             </table>
@@ -885,8 +887,14 @@
             <ul class="contact-list">
               <li>
                 <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg></span>
-                <div><strong>Téléphone</strong><a href="tel:+35228996111">+352 28 99 61 11</a></div>
+                <div><strong>Téléphone</strong><a href="tel:{{phone_href}}">{{phone}}</a></div>
               </li>
+              <!-- if:email -->
+              <li>
+                <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+                <div><strong>E-mail</strong><a href="mailto:{{email}}">{{email}}</a></div>
+              </li>
+              <!-- /if:email -->
               <li>
                 <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg></span>
                 <div><strong>Adresse</strong>
@@ -926,10 +934,10 @@
         </div>
         <div>
           <p><strong>63, avenue de la Gare</strong><br>L-1611 Luxembourg</p>
-          <p><a href="tel:+35228996111">+352 28 99 61 11</a></p>
+          <p><a href="tel:{{phone_href}}">{{phone}}</a></p>
         </div>
         <div>
-          <p>Lundi – Samedi<br><strong>11h00 – 17h30</strong></p>
+          <p>Lundi – Samedi<br><strong>{{open}} – {{close}}</strong></p>
           <p>Dimanche&nbsp;: fermé</p>
         </div>
       </div>
@@ -943,7 +951,7 @@
               <dt>Éditeur du site</dt>
               <dd><span class="todo">XXXX</span> – Yanji Korean Food<br><span lang="fr">63, avenue de la Gare, L-1611 Luxembourg</span></dd>
               <dt>Contact</dt>
-              <dd><a href="tel:+35228996111">+352 28 99 61 11</a> · <a class="todo" href="mailto:XXXX@XXXX.lu">XXXX@XXXX.lu</a></dd>
+              <dd><a href="tel:{{phone_href}}">{{phone}}</a><!-- if:email --> · <a href="mailto:{{email}}">{{email}}</a><!-- /if:email --></dd>
               <dt>Registre de commerce (RCS)</dt>
               <dd><span class="todo">B XXXXXX</span></dd>
               <dt>Numéro de TVA</dt>
@@ -984,7 +992,7 @@
     </div>
   </footer>
 
-  <a class="fab-call" href="tel:+35228996111" aria-label="Appeler Yanji Korean Food">
+  <a class="fab-call" href="tel:{{phone_href}}" aria-label="Appeler Yanji Korean Food">
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>
   </a>
 
@@ -996,16 +1004,15 @@
     <div class="call-dialog__inner">
       <p class="call-dialog__icon" aria-hidden="true">📞</p>
       <h2 id="call-dialog-title">Avant d'appeler</h2>
-      <p id="call-dialog-text">Nous parlons uniquement anglais, coréen et un peu de français. Merci d'en tenir compte avant d'appeler&nbsp;!</p>
+      <p id="call-dialog-text">Au téléphone, nous parlons les langues ci-dessous. Merci d'en tenir compte avant d'appeler&nbsp;!</p>
+      <!-- Liste générée depuis infos.md (« Langues parlées au téléphone ») -->
       <ul class="call-dialog__langs" aria-label="Langues parlées">
-        <li lang="en">English</li>
-        <li lang="ko">한국어</li>
-        <li><span lang="fr">Français</span> <small>(un peu)</small></li>
+        {{phone_langs}}
       </ul>
       <div class="call-dialog__actions">
-        <a class="btn btn--red" href="tel:+35228996111" id="call-dialog-confirm">
+        <a class="btn btn--red" href="tel:{{phone_href}}" id="call-dialog-confirm">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>
-          <span>Appeler le <span class="tel-num">+352 28 99 61 11</span></span>
+          <span>Appeler le <span class="tel-num">{{phone}}</span></span>
         </a>
         <button class="btn" type="button" id="call-dialog-cancel">Annuler</button>
       </div>

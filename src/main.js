@@ -5,11 +5,11 @@
   var T = {
     openMenu: 'Ouvrir le menu',
     closeMenu: 'Fermer le menu',
-    openSoon: 'Ouvert · ferme bientôt (17h30)',
-    openNow: 'Ouvert maintenant · jusqu\'à 17h30',
-    closedToday: 'Fermé · ouvre à 11h00',
-    closedTomorrow: 'Fermé · ouvre demain à 11h00',
-    closedMonday: 'Fermé · ouvre lundi à 11h00',
+    openSoon: 'Ouvert · ferme bientôt ({{close}})',
+    openNow: 'Ouvert maintenant · jusqu\'à {{close}}',
+    closedToday: 'Fermé · ouvre à {{open}}',
+    closedTomorrow: 'Fermé · ouvre demain à {{open}}',
+    closedMonday: 'Fermé · ouvre lundi à {{open}}',
     today: ' · aujourd\'hui',
     allergens: 'Allergènes :',
     notVeg: 'non végétarien',
@@ -95,7 +95,9 @@
       return { day: d.getDay(), minutes: d.getHours() * 60 + d.getMinutes() };
     }
   }
-  var OPEN = 11 * 60, CLOSE = 17 * 60 + 30;
+  // Horaires : valeurs de infos.md, insérées par tools/build-i18n.py
+  function toMinutes(hhmm) { var p = hhmm.split(':'); return Number(p[0]) * 60 + Number(p[1]); }
+  var OPEN = toMinutes('{{open_iso}}'), CLOSE = toMinutes('{{close_iso}}');
   function updateStatus() {
     var now = luxNow();
     var el = $('#open-status');
